@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en" dir="ltr">
+  <head>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+{# Custom CSS#}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://kit.fontawesome.com/5668daf914.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <meta charset="utf-8">
+    <title></title>
+
+  </head>
+  <body>
+
+
+
+<div class="main-container">
+  <div class="navcol">
+
+  <a class="navlink navico fas fa-list-alt butto" href="{% url 'myapp:story_list' %}">
+</a>
+{% if user.userprofile.starred.all  %}
+{% for starred in user.userprofile.starred.all %}
+<div class="starred">
+  <a href="{% url 'myapp:story_detail' pk=starred.pk %}" class="btn-story">
+  {{starred.short}}
+</a>
+</div>
+  {% endfor %}
+  {% endif %}
+<i class="navico fas fa-user-circle butto"></i>
+
+{% if user.is_authenticated %}
+  <img class="avatar" src="{{ user.userprofile.profile_pic.url }}" alt="Av"/>
+{% endif %}
+<!-- <i class="navico user-hide fas fa-user-edit"></i> -->
+
+<a class="navico navlink user-hide fas fa-sign-out-alt butto" href="{% url 'logout' %}"></a>
+</div>
+  <div class="main-content">
+                  {% block body_block %}
+                  {% endblock %}
+    </div>
+    </div>
+
+    <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+    <script>
+    var editor = new MediumEditor('.editable');
+
+    $(".user-hide").toggle();
+
+    $(document).ready(function(){
+      $(".fa-user-circle").click(function(){
+        $(this).parent().find(".user-hide").toggle(200);
+        $(this).toggleClass("pressed");
+      });
+    });
+
+  </script>
+
+
+
+   </body>
+</html>

@@ -1,0 +1,102 @@
+{% extends 'myapp/base.html' %}
+{% block body_block %}
+
+
+
+
+
+  <a href="{% url 'myapp:addstoryline' pk=story.pk %}">please click here to add a storyline</a>
+  <a href="{% url 'myapp:add_member' uuid=story.uuid %}">LInk to share</a>
+  <div class="showall">show all</div>
+
+  <div class="row">
+  {% for storyline in story.storylines.all %}
+  <div class="col" >
+    <div class="justify-content-end">
+    <span class="show_description strong">{{storyline.title}}</span>
+    <i class="far fa-eye"></i>
+    <i class="far fa-eye-slash"></i>
+    </div>
+
+
+    <p class="description">{{storyline.description}}</p>
+    {% for event in storyline.events.all %}
+    <div class="card card-primary card-inverse">
+              <div class="card-block ">
+
+                <h4 class="card-title"> <a  href="{% url 'myapp:complete_toggle' pk=event.pk %}"> <i class="far fa-check-circle{% if event.completed %} completed{%else%} not_completed{% endif %}"></i></a> {{ event.title }}  </h4>
+
+
+                    <div class="drop">
+                      <p class="card-text">
+                      <button id="eventarrow" type="button" class="show btn btn-default">
+                        <i  class=" fas fa-arrows-alt-v"></i>
+                        {% if event.comments.all  %}
+                          </button><a href="{% url 'myapp:addeventcomment' pk=event.pk %}"> <small class="text-muted">Comments: </small></p></a>
+                          {% for comment in event.comments.all %}
+                          <p>{{comment.text}}</p>
+                          {% endfor %}
+                        {% endif %}
+                    {% if event.completed == True %}
+                        <p class="hid"> completed date: {{event.completed_date|date:'G i D M Y' }}</p>
+                    {% else %}
+                        <p class="hid"> not completed</p>
+                    {% endif %}
+                    <p class="hid">{{ event.text }}</p>
+                    </div>
+              </div>
+          </div>
+
+    <span class="{% if event.completed %}glyphicon glyphicon-ok{% endif %}"></span>
+    <div class="justify-content-middle text-center">
+    <span class="bullet"></span>
+</div>
+      {% endfor %}
+
+  <a href="{% url 'myapp:addevent' pk=storyline.pk %}">  <div class="card card-primary card-inverse">
+              <div class="card-block">
+                  <h4 class="card-title">Add event</h4>
+                  <p class="card-text">Add another one</p>
+              </div>
+          </div></a>
+          </div>
+  {% endfor %}
+  </div>
+
+  <script>
+  $(".hid").hide();
+  $(".description").hide();
+
+  $(document).ready(function(){
+    $(".show").click(function(){
+      if ( $(this).parents(".drop").find(".hid").is(':hidden')){
+        $(this).parents(".drop").find(".hid").show(); }
+      else {
+        $(this).parents(".drop").find(".hid").hide();
+      }
+    });
+  });
+
+  $(document).ready(function(){
+    $(".show_description").click(function(){
+      if ( $(this).parent(".col").find(".description").is(':hidden')){
+        $(this).parent(".col").find(".description").show(); }
+      else {
+        $(this).parent(".col").find(".description").hide();
+      }
+    });
+  });
+
+  $(document).ready(function(){
+    $(".showall").click(function(){
+
+        $(".hid").toggle();
+
+    });
+  });
+
+
+  </script>
+
+
+  {% endblock %}

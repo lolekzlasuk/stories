@@ -1,0 +1,15 @@
+{
+  "name": "stories",
+  "version": "1.0.0",
+  "description": "json?",
+  "main": "index.js",
+  "dependencies": {
+    "emojionearea": "^3.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

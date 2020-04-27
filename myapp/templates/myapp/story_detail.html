@@ -1,0 +1,175 @@
+{% extends 'myapp/base.html' %}
+{% block body_block %}
+{% load fullurl %}
+
+{%  if story in user.userprofile.member_of.all  %}
+
+  <div class="top-bar">
+    <a href="{% url 'myapp:addstoryline' pk=story.pk %}">
+      <i class="fas fa-plus-circle butto"></i>
+    </a>
+    <input type="text" value="{% fullurl 'myapp:add_member' uuid=story.uuid %}" style="position: absolute; left: -1000px; top: -1000px" id="myInput">
+    <i onclick="myFunction()"class="fas fa-share butto"></i>
+    <i class="dropdown fas fa-cog butto">
+      <div class="dropdown-content">
+      <a class="dropdown-link navlink" href="#">STAR</a>
+      <a class="dropdown-link navlink" href="#">Edit</a>
+    <a class="dropdown-link navlink" href="#">Invite</a>
+      <a class="dropdown-link navlink" href="#">Delete</a>
+      </div>
+    </i>
+    <i class="showall fas fa-grip-lines butto"></i>
+
+  </div>
+
+
+
+  <div class="container-storydetail">
+    {% for storyline in story.storylines.all %}
+      <div class="storyline">
+        <div class="storyline-content">
+          <div class="story-title">
+
+
+            <h2>{{storyline.title}}</h2>
+            <!-- <i class="far fa-eye"></i>
+            <i class="far fa-eye-slash"></i> -->
+            <i class="dropdown hover-icon fas fa-pen">
+              <p class="description">{{storyline.description}}</p>
+              <div class="dropdown-content">
+
+
+                <a class="dropdown-link navlink" href="#">Edit</a>
+              <a class="dropdown-link navlink" href="#">Invite</a>
+                <a class="dropdown-link navlink" href="#">Delete</a>
+              </div>
+            </i>
+          </div>
+          <div class="container-events">
+            {% for event in storyline.events.all %}
+              <div class="eventb">
+                <h4 class="show">
+                  <a  href="{% url 'myapp:complete_toggle' pk=event.pk %}">
+                    <i class="far fa-check-circle{% if event.completed %} completed{%else%} not_completed{% endif %}"></i>
+                  </a>
+                  {{ event.title }}
+                </h4>
+                          <div class="hid">
+                {% if event.completed == True %}
+                  <p class="date">completed: {{event.completed_date|date:'G i D M Y' }}</p>
+
+                {% endif %}
+                <p>{{ event.text }}</p>
+
+                      <small class="open-comments">Comments:
+
+                        {{ event.comments.count }}
+
+                         </small>
+
+                      <div class="comments">
+
+
+
+                      {% if event.comments.all  %}
+                    {% for comment in event.comments.all %}
+                    <div class="">
+                                            <img class="avatar" src="{{ comment.author.userprofile.profile_pic.url }}" alt="Av"/>
+
+                    <div class="comment">
+
+                      {{comment.author.userprofile.name}}:
+                      {{comment.text}}</div></div>
+                    {% endfor %}
+                  {% endif %}
+                  <a class="fas fa-plus-circle" href="{% url 'myapp:addeventcomment' pk=event.pk %}">
+
+                  </a>
+                </div>
+
+                  </div>
+
+              <!-- <span class="{% if event.completed %}glyphicon glyphicon-ok{% endif %}"></span> -->
+              </div>
+            {% endfor %}
+          </div>
+          <a href="{% url 'myapp:addevent' pk=storyline.pk %}">
+            <div class="add_eventb">
+              <i class="fas fa-plus-circle btn-story btn-story-last butto"></i>
+            </div>
+          </a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  Listen here you little shit
+{% endif %}
+
+
+
+
+
+  <script>
+  $(".hid").toggle();
+  $(".description").toggle();
+  $('.comments').toggle();
+  $(document).ready(function(){
+    $(".show").click(function(){
+
+    $(this).parent().find(".hid").toggle();
+
+
+    });
+  });
+
+  $(document).ready(function(){
+    $(".show_description").click(function(){
+      if ( $(this).parent(".col").find(".description").is(':hidden')){
+        $(this).parent(".col").find(".description").show(); }
+      else {
+        $(this).parent(".col").find(".description").hide();
+      }
+    });
+  });
+
+  $(document).ready(function(){
+    $(".showall").click(function(){
+        $(this).toggleClass('fa-grip-lines fa-bars');
+        if ($(this).hasClass('fa-bars')) {
+          $(".hid").hide();
+        }
+        else if ($(this).hasClass('fa-grip-lines')) {
+          $(".hid").show();
+
+        }
+
+
+    });
+  });
+
+  $(document).ready(function(){
+    $(".open-comments").click(function(){
+        $(this).parent().find('.comments').toggle();
+
+      });
+    });
+  function myFunction() {
+    /* Get the text field */
+    var copyText = document.getElementById("myInput");
+
+    /* Select the text field */
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+    /* Copy the text inside the text field */
+    document.execCommand("copy");
+
+    /* Alert the copied text */
+    alert("Copied the text: " + copyText.value);
+  }
+
+  </script>
+
+
+  {% endblock %}

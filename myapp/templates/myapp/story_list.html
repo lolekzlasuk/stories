@@ -1,0 +1,87 @@
+{% extends 'myapp/base.html' %}
+{% block body_block %}
+
+
+  <div class="container-story-list">
+    {% if not user.userprofile.member_of.all %}
+    oopsie
+    {% else %}
+      {% for story in user.userprofile.member_of.all %}
+
+        <div class="story">
+
+          <div class="story-container">
+
+            <div class="story-title">
+              <h2 class="stitle" >{{ story.title }}</h2>
+              <h4>{{story.short}}</h4>
+              {% if user == story.author %}
+                <i class="dropdown hover-icon fas fa-pen">
+                  <div class="dropdown-content">
+                    <a class="dropdown-link navlink" href="#">STAR</a>
+                    <a class="dropdown-link navlink" href="#">Edit</a>
+                  <a class="dropdown-link navlink" href="#">Invite</a>
+                    <a class="dropdown-link navlink" href="#">Delete</a>
+                  </div>
+                </i>
+              {% endif %}
+            </div>
+
+            <div class="story_inside" >
+              <div class="story-text">
+                {{ story.description }}
+              </div>
+              <a href="{% url 'myapp:story_detail' pk=story.pk %}" class="btn-story">
+                Open
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+    {% endfor %}
+    {% endif %}
+  <div class="story">
+    <div class="story-container-last">
+      <h2 class="story-title">Add a story</h2>
+      <a href="{% url 'myapp:addstory' %}">
+        <div class="add_eventb">
+          <i class="fas fa-plus-circle btn-story btn-story-last"></i>
+        </div>
+      </a>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  $(".hover-icon").toggle();
+  $(".story-text").toggle();
+  $(document).ready(function(){
+    $(".stitle").click(function(){
+      $(this).parent().parent().find(".story-text").toggle(200);
+    });
+  });
+
+
+
+ $(function() {
+  $('.story').hover(function() {
+    $(this).find('.hover-icon').toggle(200);
+  }, function() {
+    $(this).find('.hover-icon').toggle(200);
+  });
+});
+</script>
+
+{% endblock %}
+  <!-- <a href="{% url 'myapp:story_unstarr' pk=starred.pk %}" class="btn-story"> -->

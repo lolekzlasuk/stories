@@ -1,0 +1,74 @@
+{% extends 'myapp/base.html' %}
+{% block body_block %}
+
+<button class="toggle-img">toggle img</button>
+<div class="container-story-list">
+
+{% for story in story_list %}
+
+{% if user in story.members.all or user == story.author %}
+
+      <div class="story">
+
+         <p>{{ story.title }}</p>
+          <!-- {% if user == story.author %}<div class="dropdown">
+          <a class=" dropdown-toggle" href="#" data-toggle="dropdown"><i class="fas fa-cogs"></i></a>
+          <div class="dropdown-menu">
+            <a href="#" class="dropdown-item">s</a>
+            <a href="#" class="dropdown-item">Link 2</a>
+            <a href="#" class="dropdown-item">Link 3</a>
+          </div>
+        </div>{% endif %} </div>  -->
+          <p >{{ story.description }}</p>
+         <p>{{story.uuid}}</p>
+           <a href="{% url 'myapp:story_detail' pk=story.pk %}" id="open-card" class="btn btn-outline-primary">Open</a>
+
+
+
+
+</div>
+{% endif %}
+{% endfor %}
+
+<div class="story storylist-end">
+        <h4 >Add a story</h4>
+        <p >Click on this card to create your story</p>
+                          <div>
+         <a href="{% url 'myapp:addstory' %}" class="btn btn-outline-primary">Create</a>
+                             </div>
+
+</div>
+
+
+
+
+<script>
+
+  $(".card-text").toggle();
+  $(document).ready(function(){
+    $(".card-title").click.not(children())(function(){
+      $(this).parent().find(".card-text").toggle();
+    });
+  });
+
+
+  $(document).ready(function(){
+    $(".toggle-img").click(function(){
+
+        $(".card-icon-container").toggle();
+
+
+    });
+  });
+
+ $(function() {
+  $('.card').hover(function() {
+    $(this).find('.hover-icon').toggle(400);
+  }, function() {
+    // on mouseout, reset the background colour
+        $(this).find('.hover-icon').toggle(400);
+  });
+});
+</script>
+
+{% endblock %}
