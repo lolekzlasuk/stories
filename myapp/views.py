@@ -64,7 +64,7 @@ def user_login(request):
 @login_required
 def addevent(request,pk):
     storyline = get_object_or_404(Storyline, pk=pk)
-    if request.user not in storyline.story.author.all:
+    if request.user != storyline.story.author:
         return redirect('myapp:story_detail',pk=storyline.story.pk)
     else:
         if request.method == 'POST':
@@ -85,7 +85,7 @@ def addevent(request,pk):
 @login_required
 def addstoryline(request,pk):
     story = get_object_or_404(Story, pk=pk)
-    if request.user not in story.author.all:
+    if request.user != story.author:
         return redirect('myapp:story_detail',pk=story.pk)
     else:
         if request.method == 'POST':
@@ -112,7 +112,7 @@ def add_member(request,uuid):
 @login_required
 def updatestory(request,pk):
     story = get_object_or_404(Story, pk=pk)
-    if request.user not in story.author.all:
+    if request.user != story.author:
         return redirect('myapp:story_detail',pk=story.pk)
     else:
 
@@ -166,7 +166,7 @@ def delete_story(request, pk):
     context ={}
     # fetch the object related to passed id
     story = get_object_or_404(Story, pk=pk)
-    if request.user not in story.author.all:
+    if request.user != story.author:
         return redirect('myapp:story_detail',pk=story.pk)
     else:
         if request.method =="POST":
