@@ -18,14 +18,23 @@
               {% if user == story.author %}
                 <i class="dropdown hover-icon fas fa-pen">
                   <div class="dropdown-content">
-                    <a class="dropdown-link navlink" href="#">STAR</a>
+                    {% if story in user.userprofile.starred.all  %}
+                      <a class="dropdown-link navlink" href="{% url 'myapp:story_unstarr'  pk=story.pk %}">UNSTAR</a>
+                    {% else %}
+                      <a class="dropdown-link navlink" href="{% url 'myapp:story_starr'  pk=story.pk %}">STAR</a>
+                    {% endif %}
                     <a class="dropdown-link navlink" href="#">Edit</a>
                   <a class="dropdown-link navlink" href="#">Invite</a>
                     <a class="dropdown-link navlink" href="#">Delete</a>
                   </div>
                 </i>
                 {% else %}
-                <i class=" hover-icon fas fa-star"></i>
+                  {% if story in user.userprofile.starred.all  %}
+
+                  <i class="hover-icon far fa-star"></i>
+                  {% else  %}
+                    <i class=" hover-icon fas fa-star"></i>
+                  {% endif %}
               {% endif %}
             </div>
 
