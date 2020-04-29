@@ -104,7 +104,7 @@ def add_member(request,uuid):
         return redirect('myapp:story_detail',pk=story.pk)
 
 @login_required
-def updatestory(request):
+def updatestory(request,pk):
     story = get_object_or_404(Story, pk=pk)
     if request.method == 'POST':
         form = StoryForm(request.POST)
