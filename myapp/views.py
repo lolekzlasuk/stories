@@ -183,7 +183,7 @@ def delete_story(request, pk):
 @login_required
 def addeventcomment(request,pk):
     event = get_object_or_404(StoryEvent, pk=pk)
-    if request.user not in event.storyline.story.author.all:
+    if request.user != event.storyline.story.author:
         return redirect('myapp:story_detail',pk=event.storyline.story.pk)
     else:
 
