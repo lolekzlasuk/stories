@@ -31,10 +31,10 @@
                 {% else %}
                   {% if story in user.userprofile.starred.all  %}
 
-                  <i class="hover-icon far fa-star"></i>
-                  {% else  %}
-                    <i class=" hover-icon fas fa-star"></i>
-                  {% endif %}
+                  <a class="dropdown-link navlink" href="{% url 'myapp:story_unstarr'  pk=story.pk %}"><i class="hover-icon far fa-star"></i></a>
+                {% else  %}
+                  <a class="dropdown-link navlink" href="{% url 'myapp:story_starr'  pk=story.pk %}"><i class=" hover-icon fas fa-star"></i></a>
+                {% endif %}
               {% endif %}
             </div>
 
