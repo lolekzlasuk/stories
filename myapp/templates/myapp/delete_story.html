@@ -3,7 +3,7 @@
 {% block body_block %}
 <div class="main">
 
-  {% if story.author != user %}
+  {% if user in story.author.all %}
     <h1>You dont have permission to delete this story</h1>
     <h2>You will be redirected back</h2>
     <script>
