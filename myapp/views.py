@@ -105,6 +105,7 @@ def add_member(request,uuid):
 
 @login_required
 def updatestory(request):
+    story = get_object_or_404(Story, pk=pk)
     if request.method == 'POST':
         form = StoryForm(request.POST)
         if form.is_valid():
