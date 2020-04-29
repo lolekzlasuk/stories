@@ -1,0 +1,27 @@
+{% extends 'myapp/base.html'  %}
+
+{% block body_block %}
+<div class="main">
+
+  {% if story.author != user %}
+    <h1>You dont have permission to delete this story</h1>
+    <h2>You will be redirected back</h2>
+    <script>
+    function redirect(){
+       history.go(-1);
+    }
+
+    setTimeout(redirect, 3000); //2000 is equivalent to 2 seconds
+    </script>
+  {% else %}
+    <!-- Create a Form -->
+    <form method="POST">
+        <!-- Security token by Django -->
+        {% csrf_token %}
+        Are you want to delete this item ?
+        <input type="submit" value="Yes" />
+        <a href="/">Cancel </a>
+    </form>
+  {% endif %}
+</div>
+{% endblock %}
