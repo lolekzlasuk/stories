@@ -136,7 +136,7 @@ def story_starr(request,pk):
     story = get_object_or_404(Story,pk=pk)
     request.user.userprofile.starred.add(story)
 
-    return redirect('myapp:story_detail',pk=event.storyline.story.pk)
+    return redirect('myapp:story_detail',pk=story.pk)
 
 
 @login_required
