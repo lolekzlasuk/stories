@@ -64,35 +64,41 @@ def user_login(request):
 @login_required
 def addevent(request,pk):
     storyline = get_object_or_404(Storyline, pk=pk)
-    if request.method == 'POST':
-        form = EventForm(request.POST)
-        if form.is_valid():
-
-            event = form.save(commit=False)
-            event.author = User.objects.get(username=request.user.username)
-            event.storyline = storyline
-
-            form.save()
-            return redirect('myapp:story_detail',pk=storyline.story.pk)
+    if user not in storyline.story.author.all:
+        return redirect('myapp:story_detail',pk=storyline.story.pk)
     else:
-        form = EventForm()
-    return render(request,'myapp/event_form.html',{'form':form})
+        if request.method == 'POST':
+            form = EventForm(request.POST)
+            if form.is_valid():
+
+                event = form.save(commit=False)
+                event.author = User.objects.get(username=request.user.username)
+                event.storyline = storyline
+
+                form.save()
+                return redirect('myapp:story_detail',pk=storyline.story.pk)
+        else:
+            form = EventForm()
+        return render(request,'myapp/event_form.html',{'form':form})
 
 
 @login_required
 def addstoryline(request,pk):
     story = get_object_or_404(Story, pk=pk)
-    if request.method == 'POST':
-        form = StorylineForm(request.POST)
-        if form.is_valid():
-            storyline = form.save(commit=False)
-            storyline.author = User.objects.get(username=request.user.username)
-            storyline.story = story
-            form.save()
-            return redirect('myapp:story_detail',pk=story.pk)
+    if user not in story.author.all:
+        return redirect('myapp:story_detail',pk=story.pk)
     else:
-        form = StorylineForm()
-    return render(request,'myapp/storyline_form.html',{'form':form})
+        if request.method == 'POST':
+            form = StorylineForm(request.POST)
+            if form.is_valid():
+                storyline = form.save(commit=False)
+                storyline.author = User.objects.get(username=request.user.username)
+                storyline.story = story
+                form.save()
+                return redirect('myapp:story_detail',pk=story.pk)
+        else:
+            form = StorylineForm()
+        return render(request,'myapp/storyline_form.html',{'form':form})
 
 @login_required
 def add_member(request,uuid):
@@ -106,15 +112,19 @@ def add_member(request,uuid):
 @login_required
 def updatestory(request,pk):
     story = get_object_or_404(Story, pk=pk)
-    if request.method == 'POST':
-        form = StoryForm(request.POST)
-        if form.is_valid():
-            story = form.save(commit=False)
-            form.save()
-            return redirect('myapp:story_detail',pk=story.pk)
+    if request.user not in story.author.all:
+        return redirect('myapp:story_detail',pk=story.pk)
     else:
-        form = StoryForm(instance=story)
-    return render(request, 'myapp/story_update_form.html', {'form':form})
+
+        if request.method == 'POST':
+            form = StoryForm(request.POST)
+            if form.is_valid():
+                story = form.save(commit=False)
+                form.save()
+                return redirect('myapp:story_detail',pk=story.pk)
+        else:
+            form = StoryForm(instance=story)
+        return render(request, 'myapp/story_update_form.html', {'form':form})
 
 
 @login_required
@@ -155,35 +165,41 @@ def story_starr(request,pk):
 def delete_story(request, pk):
     context ={}
     # fetch the object related to passed id
-    obj = get_object_or_404(Story, pk=pk)
+    story = get_object_or_404(Story, pk=pk)
+    if user not in story.author.all:
+        return redirect('myapp:story_detail',pk=story.pk)
+    else:
+        if request.method =="POST":
 
-    if request.method =="POST":
+            # delete object
+            story.delete()
+            # after deleting redirect to
+            # home page
+            return redirect('myapp:story_list')
 
-        # delete object
-        obj.delete()
-        # after deleting redirect to
-        # home page
-        return redirect('myapp:story_list')
-
-    return render(request, "delete_story.html", context)
+        return render(request, "delete_story.html", context)
 
 
 @login_required
 def addeventcomment(request,pk):
     event = get_object_or_404(StoryEvent, pk=pk)
-    if request.method == 'POST':
-        form = EventCommentForm(request.POST)
-        if form.is_valid():
-
-            eventcomment = form.save(commit=False)
-            eventcomment.author = User.objects.get(username=request.user.username)
-            eventcomment.event = event
-
-            form.save()
-            return redirect('myapp:story_detail',pk=event.storyline.story.pk)
+    if user not in storyline.story.author.all:
+        return redirect('myapp:story_detail',pk=story.pk)
     else:
-        form = EventCommentForm()
-    return render(request,'myapp/eventcomment_form.html',{'form':form})
+
+        if request.method == 'POST':
+            form = EventCommentForm(request.POST)
+            if form.is_valid():
+
+                eventcomment = form.save(commit=False)
+                eventcomment.author = User.objects.get(username=request.user.username)
+                eventcomment.event = event
+
+                form.save()
+                return redirect('myapp:story_detail',pk=event.storyline.story.pk)
+        else:
+            form = EventCommentForm()
+        return render(request,'myapp/eventcomment_form.html',{'form':form})
 
 def register(request):
     registered = False
