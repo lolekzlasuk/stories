@@ -18,9 +18,8 @@
         {% else %}
           <a class="dropdown-link navlink" href="{% url 'myapp:story_starr'  pk=story.pk %}">STAR</a>
         {% endif %}
-      <a class="dropdown-link navlink" href="#">Edit</a>
-    <a class="dropdown-link navlink" href="#">Invite</a>
-      <a class="dropdown-link navlink" href="#">Delete</a>
+      <a class="dropdown-link navlink" href="{% url 'myapp:updatestory'  pk=story.pk %">edit</a>
+      <a class="dropdown-link navlink" href="{% url 'myapp:story_delete' pk=story.pk %}">Delete</a>
       </div>
     </i>
     {% else %}
@@ -53,7 +52,7 @@
 
 
                 <a class="dropdown-link navlink" href="#">Edit</a>
-              <a class="dropdown-link navlink" href="#">Invite</a>
+
                 <a class="dropdown-link navlink" href="#">Delete</a>
               </div>
             </i>

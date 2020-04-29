@@ -1,6 +1,6 @@
 {% extends 'myapp/base.html' %}
 {% block body_block %}
-
+{% load fullurl %}
 
   <div class="container-story-list">
     {% if not user.userprofile.member_of.all %}
@@ -23,9 +23,10 @@
                     {% else %}
                       <a class="dropdown-link navlink" href="{% url 'myapp:story_starr'  pk=story.pk %}">STAR</a>
                     {% endif %}
-                    <a class="dropdown-link navlink" href="#">Edit</a>
-                  <a class="dropdown-link navlink" href="#">Invite</a>
-                    <a class="dropdown-link navlink" href="#">Delete</a>
+                    <a class="dropdown-link navlink" href="{% url 'myapp:updatestory'  pk=story.pk %">Edit</a>
+                  <a class="dropdown-link navlink" onclick="myFunction()" href="#">Invite</a>
+                  <input type="text" value="{% fullurl 'myapp:add_member' uuid=story.uuid %}" style="position: absolute; left: -1000px; top: -1000px" id="myInput">
+                    <a class="dropdown-link navlink"  href="{% url 'myapp:story_delete' pk=story.pk %}">Delete</a>
                   </div>
                 </i>
                 {% else %}
@@ -92,6 +93,23 @@
     $(this).find('.hover-icon').toggle(200);
   });
 });
+
+function myFunction() {
+  /* Get the text field */
+  var copyText = document.getElementById("myInput");
+
+  /* Select the text field */
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+  /* Copy the text inside the text field */
+  document.execCommand("copy");
+
+  /* Alert the copied text */
+  alert("Copied the text: " + copyText.value);
+}
+
+
 </script>
 
 {% endblock %}

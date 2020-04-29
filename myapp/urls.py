@@ -17,6 +17,7 @@ urlpatterns=[
     path('complete/<int:pk>', views.event_complete_toggle ,name='complete_toggle'),
     path('story/<int:pk>/unstarr',views.story_unstarr,name='story_unstarr'),
     path('story/<int:pk>/starr',views.story_starr,name='story_starr'),
-    path('story/<int:pk>/delete',views.delete_story,name='story_delete')
+    path('story/<int:pk>/delete',views.delete_story,name='story_delete'),
+    path('story/<int:pk>/edit', views.updatestory, name='updatestory'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

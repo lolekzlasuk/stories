@@ -104,6 +104,19 @@ def add_member(request,uuid):
         return redirect('myapp:story_detail',pk=story.pk)
 
 @login_required
+def updatestory(request):
+    if request.method == 'POST':
+        form = StoryForm(request.POST)
+        if form.is_valid():
+            story = form.save(commit=False)
+            form.save()
+            return redirect('myapp:story_detail',pk=story.pk)
+    else:
+        form = StoryForm()
+    return render(request, 'myapp/story_update_form.html', {'form':form})
+
+
+@login_required
 def addstory(request):
     if request.method == 'POST':
         form = StoryForm(request.POST)
