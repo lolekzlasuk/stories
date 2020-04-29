@@ -138,13 +138,13 @@ def story_starr(request,pk):
 
     return redirect('myapp:story_detail',pk=story.pk)
 
-def delete_story(request, id):
+def delete_story(request, pk):
     context ={}
     # fetch the object related to passed id
     obj = get_object_or_404(Story, pk=pk)
 
     if request.method =="POST":
-        
+
         # delete object
         obj.delete()
         # after deleting redirect to
