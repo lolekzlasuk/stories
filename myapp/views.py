@@ -113,7 +113,7 @@ def updatestory(request,pk):
             form.save()
             return redirect('myapp:story_detail',pk=story.pk)
     else:
-        form = StoryForm()
+        form = StoryForm(instance=story)
     return render(request, 'myapp/story_update_form.html', {'form':form})
 
 
