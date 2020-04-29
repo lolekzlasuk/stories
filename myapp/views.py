@@ -113,7 +113,7 @@ def addstory(request):
 
             form.save()
             request.user.userprofile.member_of.add(story)
-            return redirect('myapp:story_list')
+            return redirect('myapp:story_detail',pk=story.pk)
     else:
         form = StoryForm()
     return render(request, 'myapp/story_form.html', {'form':form})
@@ -129,14 +129,14 @@ def story_unstarr(request,pk):
     story = get_object_or_404(Story,pk=pk)
     request.user.userprofile.starred.remove(story)
 
-    return render(request,'login.html',{})
+    return redirect('myapp:story_list')
 
 @login_required
 def story_starr(request,pk):
     story = get_object_or_404(Story,pk=pk)
     request.user.userprofile.starred.add(story)
 
-    return render(request,'login.html',{})
+    return redirect('myapp:story_detail',pk=event.storyline.story.pk)
 
 
 @login_required
