@@ -10,6 +10,7 @@
     </a>
     <input type="text" value="{% fullurl 'myapp:add_member' uuid=story.uuid %}" style="position: absolute; left: -1000px; top: -1000px" id="myInput">
     <i onclick="myFunction()"class="fas fa-share butto"></i>
+    {% if user == story.author %}
     <i class="dropdown fas fa-cog butto">
       <div class="dropdown-content">
       <a class="dropdown-link navlink" href="{% url 'myapp:story_starr'  pk=story.pk %}">STAR</a>
@@ -18,6 +19,9 @@
       <a class="dropdown-link navlink" href="#">Delete</a>
       </div>
     </i>
+    {% else %}
+    <i class=" butto fas fa-star"></i>
+    {% endif %}
     <i class="showall fas fa-grip-lines butto"></i>
 
   </div>
