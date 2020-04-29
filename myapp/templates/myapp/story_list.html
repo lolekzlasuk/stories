@@ -23,7 +23,7 @@
                     {% else %}
                       <a class="dropdown-link navlink" href="{% url 'myapp:story_starr'  pk=story.pk %}">STAR</a>
                     {% endif %}
-                    <a class="dropdown-link navlink" href="{% url 'myapp:updatestory'  pk=story.pk %">Edit</a>
+                    <a class="dropdown-link navlink" href="{% url 'myapp:updatestory'  pk=story.pk %}">Edit</a>
                   <a class="dropdown-link navlink" onclick="myFunction()" href="#">Invite</a>
                   <input type="text" value="{% fullurl 'myapp:add_member' uuid=story.uuid %}" style="position: absolute; left: -1000px; top: -1000px" id="myInput">
                     <a class="dropdown-link navlink"  href="{% url 'myapp:story_delete' pk=story.pk %}">Delete</a>
