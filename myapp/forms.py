@@ -32,7 +32,7 @@ class StorylineForm(forms.ModelForm):
 
     class Meta():
         model = Storyline
-        fields = ('title')
+        fields = ('title',)
 
         # widgets = {
         #         'author':forms.TextInput(attrs={'class': 'textinputclass'}),
@@ -48,4 +48,4 @@ class EventForm(forms.ModelForm):
 class EventCommentForm(forms.ModelForm):
     class Meta():
         model = EventComment
-        fields = ('text')
+        fields = ('text',)
