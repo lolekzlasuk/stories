@@ -123,7 +123,7 @@ def updatestoryline(request,pk):
                 form.save()
                 return redirect('myapp:story_detail',pk=story.pk)
         else:
-            form = StorylineForm()
+            form = StorylineForm(instance=storyline)
         return render(request,'myapp/storyline_update_form.html',{'form':form})
 
 @login_required
@@ -179,6 +179,7 @@ def story_starr(request,pk):
 
     return redirect('myapp:story_detail',pk=story.pk)
 
+@login_required
 def delete_story(request, pk):
     context ={}
     # fetch the object related to passed id
@@ -195,6 +196,23 @@ def delete_story(request, pk):
             return redirect('myapp:story_list')
 
         return render(request, "delete_story.html", context)
+
+def delete_story(request, pk):
+    context ={}
+    # fetch the object related to passed id
+    storyline = get_object_or_404(Storyline, pk=pk)
+    if request.user != storyline.story.author:
+        return redirect('myapp:story_detail',pk=storyline.story.pk)
+    else:
+        if request.method =="POST":
+
+            # delete object
+            storyline.delete()
+            # after deleting redirect to
+            # home page
+            return redirect('myapp:story_detail',pk=storyline.story.pk)
+
+        return render(request, "delete_storyline.html", context)
 
 
 @login_required
