@@ -7,7 +7,7 @@ import uuid
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.PROTECT)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_pic = models.ImageField(upload_to='profile_pics',default='profile_pics/default-profile.png',blank=True)
     name = models.TextField(max_length=200, default='')
     starred = models.ManyToManyField('myapp.Story')
@@ -30,7 +30,7 @@ class Story(models.Model):
         return self.title
 
 class Storyline(models.Model):
-    story = models.ForeignKey('myapp.Story',related_name='storylines',on_delete=models.PROTECT)
+    story = models.ForeignKey('myapp.Story',related_name='storylines',on_delete=models.CASCADE)
     author = models.ForeignKey('auth.User',on_delete=models.PROTECT)
     created_date = models.DateTimeField(default=timezone.now)
     description = models.TextField(max_length=1000)
@@ -43,7 +43,7 @@ class Storyline(models.Model):
         return self.title
 
 class StoryEvent(models.Model):
-    storyline = models.ForeignKey('myapp.Storyline',related_name='events',on_delete=models.PROTECT)
+    storyline = models.ForeignKey('myapp.Storyline',related_name='events',on_delete=models.CASCADE)
     title = models.TextField(max_length=200)
     author = models.ForeignKey('auth.User',on_delete=models.PROTECT)
     created_date = models.DateTimeField(default=timezone.now)
@@ -73,7 +73,7 @@ class membership(models.Model):
     user = models.ManyToManyField('auth.user')
 
 class EventComment(models.Model):
-    event = models.ForeignKey('myapp.StoryEvent',related_name='comments',on_delete=models.PROTECT)
+    event = models.ForeignKey('myapp.StoryEvent',related_name='comments',on_delete=models.CASCADE)
     author = models.ForeignKey('auth.User',on_delete=models.PROTECT)
     created_date = models.DateTimeField(default=timezone.now)
     text = models.TextField(max_length=200)

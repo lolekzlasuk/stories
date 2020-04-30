@@ -32,7 +32,7 @@
 {% if user.userprofile.starred.all  %}
 {% for starred in user.userprofile.starred.all %}
 <div class="starred">
-  <a href="{% url 'myapp:story_detail' pk=starred.pk %}" class="btn-story">
+  <a href="{% url 'myapp:story_detail' pk=starred.pk %}" class="butto btn-story">
   {{starred.short}}
 </a>
 </div>
