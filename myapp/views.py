@@ -197,7 +197,7 @@ def delete_story(request, pk):
 
         return render(request, "delete_story.html", context)
 
-def delete_story(request, pk):
+def delete_storyline(request, pk):
     context ={}
     # fetch the object related to passed id
     storyline = get_object_or_404(Storyline, pk=pk)
