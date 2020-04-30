@@ -51,9 +51,9 @@
               <div class="dropdown-content">
 
 
-                <a class="dropdown-link navlink" href="#">Edit</a>
+                <a class="dropdown-link navlink" href="{% url 'myapp:updatestoryline'  pk=storyline.pk %}">Edit</a>
 
-                <a class="dropdown-link navlink" href="#">Delete</a>
+                <a class="dropdown-link navlink" href="{% url 'myapp:storyline_delete'  pk=storyline.pk %}">Delete</a>
                 <a class="dropdown-link navlink" href="#">Delete events</a>
               </div>
             </i>
