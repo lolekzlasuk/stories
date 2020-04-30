@@ -19,5 +19,6 @@ urlpatterns=[
     path('story/<int:pk>/starr',views.story_starr,name='story_starr'),
     path('story/<int:pk>/delete',views.delete_story,name='story_delete'),
     path('story/<int:pk>/edit', views.updatestory, name='updatestory'),
+    path('storyline/<int:pk>/edit', views.updatestoryline, name='updatestoryline'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

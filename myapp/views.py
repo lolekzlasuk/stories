@@ -110,6 +110,23 @@ def add_member(request,uuid):
         return redirect('myapp:story_detail',pk=story.pk)
 
 @login_required
+def updatestoryline(request,pk):
+    storyline = get_object_or_404(Storyline, pk=pk)
+    if request.user != storyline.story.author:
+        return redirect('myapp:story_detail',pk=storyline.story.pk)
+    else:
+        if request.method == 'POST':
+            form = StorylineForm(request.POST)
+            if form.is_valid():
+                storyline = form.save(commit=False)
+                storyline.story = story
+                form.save()
+                return redirect('myapp:story_detail',pk=story.pk)
+        else:
+            form = StorylineForm()
+        return render(request,'myapp/storyline_update_form.html',{'form':form})
+
+@login_required
 def updatestory(request,pk):
     story = get_object_or_404(Story, pk=pk)
     if request.user != story.author:
