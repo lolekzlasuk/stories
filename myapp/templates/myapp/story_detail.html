@@ -7,17 +7,15 @@
   <div class="top-bar">
     <div class="bread">
       <a href="{% url 'myapp:story_list' %}">Story list </a>
-      >
-      <div class="">
+      ->
         {{story.title}}
-      </div>
     </div>
 
     <a href="{% url 'myapp:addstoryline' pk=story.pk %}">
       <i class="fas fa-plus-circle butto"></i>
     </a>
     <input type="text" value="{% fullurl 'myapp:add_member' uuid=story.uuid %}" style="position: absolute; left: -1000px; top: -1000px" id="myInput">
-    <i onclick="myFunction()"class="fas fa-share butto"></i>
+    <i onclick="myFunction()"class="fas fa-share butto bread"></i>
     {% if user == story.author %}
     <i class="dropdown fas fa-cog butto">
       <div class="dropdown-content">
