@@ -83,7 +83,9 @@ def addevent(request,pk):
 @login_required
 def addstoryline(request,pk):
     story = get_object_or_404(Story, pk=pk)
-
+    if request.user != story.author:
+        return redirect('myapp:story_detail',pk=story.pk)
+    else:
         if request.method == 'POST':
             form = StorylineForm(request.POST)
             if form.is_valid():
