@@ -10,12 +10,13 @@
       ->
         {{story.title}}
     </div>
-
-    <a href="{% url 'myapp:addstoryline' pk=story.pk %}">
-      <i class="fas fa-plus-circle butto"></i>
+  {% if user == story.author %}
+    <a class="fas fa-plus-circle butto     "  href="{% url 'myapp:addstoryline' pk=story.pk %}">
+      Add storyline
     </a>
+     {% endif %}
     <input type="text" value="{% fullurl 'myapp:add_member' uuid=story.uuid %}" style="position: absolute; left: -1000px; top: -1000px" id="myInput">
-    <i onclick="myFunction()"class="fas fa-share butto"></i>
+    <a onclick="myFunction()"class="fas fa-share butto">share/invite</a>
     {% if user == story.author %}
     <i class="dropdown fas fa-cog butto">
       <div class="dropdown-content">
@@ -31,9 +32,9 @@
     {% else %}
       {% if story in user.userprofile.starred.all  %}
 
-        <a class="dropdown-link navlink butto" href="{% url 'myapp:story_unstarr'  pk=story.pk %}"><i class="hover-icon far fa-star"></i></a>
+        <a class="dropdown-link navlink butto hover-icon far fa-star" href="{% url 'myapp:story_unstarr'  pk=story.pk %}" > unstar</a>
       {% else  %}
-        <a class="dropdown-link navlink butto" href="{% url 'myapp:story_starr'  pk=story.pk %}"><i class=" hover-icon fas fa-star"></i></a>
+        <a class="dropdown-link navlink butto hover-icon fas fa-star" href="{% url 'myapp:story_starr'  pk=story.pk %}" > star</a>
       {% endif %}
     {% endif %}
     <i class="showall fas fa-grip-lines  butto unpressed"></i>
@@ -50,8 +51,7 @@
 
 
             <h2>{{storyline.title}}</h2>
-            <!-- <i class="far fa-eye"></i>
-            <i class="far fa-eye-slash"></i> -->
+            {% if user == story.author %}
             <i class="dropdown hover-icon fas fa-pen">
               <p class="description">{{storyline.description}}</p>
               <div class="dropdown-content">
@@ -60,9 +60,10 @@
                 <a class="dropdown-link navlink" href="{% url 'myapp:updatestoryline'  pk=storyline.pk %}">Edit</a>
 
                 <a class="dropdown-link navlink" href="{% url 'myapp:storyline_delete'  pk=storyline.pk %}">Delete</a>
-                <a class="dropdown-link navlink" href="#">Delete events</a>
+
               </div>
             </i>
+            {% endif %}
           </div>
           <div class="container-events">
             {% for event in storyline.events.all %}
@@ -79,7 +80,7 @@
 
                 {% endif %}
                 <p>{{ event.text }}</p>
-
+                  <a href="{% url 'myapp:storyevent_delete'  pk=event.pk %}"> Delete </a>
                       <small class="open-comments">Comments:
 
                         {{ event.comments.count }}

@@ -168,7 +168,7 @@ def story_unstarr(request,pk):
     story = get_object_or_404(Story,pk=pk)
     request.user.userprofile.starred.remove(story)
 
-    return redirect('myapp:story_list')
+    return redirect('myapp:story_detail',pk=story.pk)
 
 @login_required
 def story_starr(request,pk):
@@ -195,6 +195,7 @@ def delete_story(request, pk):
 
         return render(request, "delete_story.html", context)
 
+@login_required
 def delete_storyline(request, pk):
     context ={}
     # fetch the object related to passed id
@@ -211,6 +212,25 @@ def delete_storyline(request, pk):
             return redirect('myapp:story_detail',pk=storyline.story.pk)
 
         return render(request, "delete_storyline.html", context)
+
+@login_required
+def delete_storyevent(request, pk):
+    context ={}
+    # fetch the object related to passed id
+    event = get_object_or_404(StoryEvent, pk=pk)
+    if request.user != event.storyline.story.author:
+        return redirect('myapp:story_detail',pk=event.storyline.story.pk)
+    else:
+        if request.method =="POST":
+
+            # delete object
+            event.delete()
+            # after deleting redirect to
+            # home page
+            return redirect('myapp:story_detail',pk=event.storyline.story.pk)
+
+        return render(request, "delete_storyevent.html", context)
+
 
 
 @login_required
