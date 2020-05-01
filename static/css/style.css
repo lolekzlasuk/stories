@@ -68,7 +68,7 @@ a.navlink:hover{
   background-color: rgba(150, 150, 150, 0.6);
 }
 .pressed{
-  background-color: rgba(150, 150, 150, 0.6);
+  background-color: rgba(80, 80, 80, 0.3) !important;
 }
 .fa-user-circle{
   margin-top: 50%;
@@ -142,11 +142,23 @@ a.navlink:hover{
 
 /* storylines */
 .fa-check-circle{
-  color: green;
+  color: lightgreen;
 }
 
 .fa-circle{
   color: gray;
+}
+
+.button-subscrypt{
+  margin: auto;
+  font-size: .5em;
+
+}
+.unpressed{
+
+}
+.pressed{
+  background-color: rgba(80, 80, 70, .3);
 }
 
 .container-storydetail{
@@ -278,6 +290,7 @@ a:hover{
   padding: .3em;
   color: white;
   cursor:pointer;
+
 }
 .butto:hover{
     background-color: rgba(80, 80, 80, .3);

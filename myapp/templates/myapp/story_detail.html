@@ -31,12 +31,12 @@
     {% else %}
       {% if story in user.userprofile.starred.all  %}
 
-        <a class="dropdown-link navlink" href="{% url 'myapp:story_unstarr'  pk=story.pk %}"><i class="hover-icon far fa-star"></i></a>
+        <a class="dropdown-link navlink butto" href="{% url 'myapp:story_unstarr'  pk=story.pk %}"><i class="hover-icon far fa-star"></i></a>
       {% else  %}
-        <a class="dropdown-link navlink" href="{% url 'myapp:story_starr'  pk=story.pk %}"><i class=" hover-icon fas fa-star"></i></a>
+        <a class="dropdown-link navlink butto" href="{% url 'myapp:story_starr'  pk=story.pk %}"><i class=" hover-icon fas fa-star"></i></a>
       {% endif %}
     {% endif %}
-    <i class="showall fas fa-grip-lines butto"></i>
+    <i class="showall fas fa-grip-lines  butto unpressed"></i>
 
   </div>
 
@@ -156,11 +156,11 @@
 
   $(document).ready(function(){
     $(".showall").click(function(){
-        $(this).toggleClass('fa-grip-lines fa-bars');
-        if ($(this).hasClass('fa-bars')) {
+        $(this).toggleClass('unpressed pressed');
+        if ($(this).hasClass('unpressed')) {
           $(".hid").hide();
         }
-        else if ($(this).hasClass('fa-grip-lines')) {
+        else if ($(this).hasClass('pressed')) {
           $(".hid").show();
 
         }

@@ -26,8 +26,11 @@
 
 <div class="main-container">
   <div class="navcol">
-
+  <div class="nav-item"></div>
   <a class="navlink navico fas fa-list-alt butto" href="{% url 'myapp:story_list' %}">
+    <div class="button-subscrypt"> testtest
+
+    </div>
 </a>
 {% if user.userprofile.starred.all  %}
 {% for starred in user.userprofile.starred.all %}
