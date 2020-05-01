@@ -64,9 +64,7 @@ def user_login(request):
 @login_required
 def addevent(request,pk):
     storyline = get_object_or_404(Storyline, pk=pk)
-    if request.user != storyline.story.author:
-        return redirect('myapp:story_detail',pk=storyline.story.pk)
-    else:
+
         if request.method == 'POST':
             form = EventForm(request.POST)
             if form.is_valid():
@@ -85,9 +83,7 @@ def addevent(request,pk):
 @login_required
 def addstoryline(request,pk):
     story = get_object_or_404(Story, pk=pk)
-    if request.user != story.author:
-        return redirect('myapp:story_detail',pk=story.pk)
-    else:
+
         if request.method == 'POST':
             form = StorylineForm(request.POST)
             if form.is_valid():
