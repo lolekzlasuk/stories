@@ -41,7 +41,7 @@
 </div>
   {% endfor %}
   {% endif %}
-<a class="navico butto" href="#">  <img class="avatar" src="{{ user.userprofile.profile_pic.url }}" alt="Av"/> Profile</a>
+<a class="navico butto profile" href="#">  <img class="avatar" src="{{ user.userprofile.profile_pic.url }}" alt="Av"/> Profile</a>
 
 
 <!-- {% if user.is_authenticated %}
@@ -66,7 +66,7 @@
     $(".user-hide").toggle();
 
     $(document).ready(function(){
-      $(".fa-user-circle").click(function(){
+      $(".profile").click(function(){
         $(this).parent().find(".user-hide").toggle(200);
         $(this).toggleClass("pressed");
       });
