@@ -141,12 +141,12 @@ a.navlink:hover{
 } */
 
 /* storylines */
-.completed{
+.fa-check-circle{
   color: green;
 }
 
-.not_completed{
-  color: red;
+.fa-circle{
+  color: gray;
 }
 
 .container-storydetail{

@@ -15,7 +15,7 @@
       <i class="fas fa-plus-circle butto"></i>
     </a>
     <input type="text" value="{% fullurl 'myapp:add_member' uuid=story.uuid %}" style="position: absolute; left: -1000px; top: -1000px" id="myInput">
-    <i onclick="myFunction()"class="fas fa-share butto bread"></i>
+    <i onclick="myFunction()"class="fas fa-share butto"></i>
     {% if user == story.author %}
     <i class="dropdown fas fa-cog butto">
       <div class="dropdown-content">
@@ -169,20 +169,6 @@
     });
   });
 
-  $(document).ready(function(){
-    $(".showall").click(function(){
-        $(this).toggleClass('fa-grip-lines fa-bars');
-        if ($(this).hasClass('fa-bars')) {
-          $(".hid").hide();
-        }
-        else if ($(this).hasClass('fa-grip-lines')) {
-          $(".hid").show();
-
-        }
-
-
-    });
-  });
 
 
 
