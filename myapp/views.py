@@ -11,7 +11,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView,ListView,DetailView,CreateView,UpdateView,DeleteView
 from .models import Story,Storyline,StoryEvent, UserProfile
 from django.utils import timezone
-
+from django.contrib import messages
 
 class IndexView( TemplateView):
     template_name = 'index.html'
@@ -49,6 +49,7 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request,user)
+                messages.success(request, 'Your password was updated successfully!')
                 return HttpResponseRedirect(reverse('myapp:story_list'))
 
             else:
