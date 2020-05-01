@@ -264,6 +264,7 @@ a:hover{
 }
 
 .bread{
+  display: flex;
   align-self: flex-start;
 }
 
