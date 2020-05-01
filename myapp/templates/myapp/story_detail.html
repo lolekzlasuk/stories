@@ -63,7 +63,7 @@
               <div class="eventb">
                 <h4 class="show">
                   <a  href="{% url 'myapp:complete_toggle' pk=event.pk %}">
-                    <i class="far fa-check-circle{% if event.completed %} completed{%else%} not_completed{% endif %}"></i>
+                    <i class="far {% if event.completed %} fa-check-circle{%else%} fa-circle{% endif %}"></i>
                   </a>
                   {{ event.title }}
                 </h4>
@@ -162,6 +162,23 @@
 
     });
   });
+
+  $(document).ready(function(){
+    $(".showall").click(function(){
+        $(this).toggleClass('fa-grip-lines fa-bars');
+        if ($(this).hasClass('fa-bars')) {
+          $(".hid").hide();
+        }
+        else if ($(this).hasClass('fa-grip-lines')) {
+          $(".hid").show();
+
+        }
+
+
+    });
+  });
+
+
 
   $(document).ready(function(){
     $(".open-comments").click(function(){

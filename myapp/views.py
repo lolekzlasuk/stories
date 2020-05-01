@@ -65,19 +65,19 @@ def user_login(request):
 def addevent(request,pk):
     storyline = get_object_or_404(Storyline, pk=pk)
 
-        if request.method == 'POST':
-            form = EventForm(request.POST)
-            if form.is_valid():
+    if request.method == 'POST':
+        form = EventForm(request.POST)
+        if form.is_valid():
 
-                event = form.save(commit=False)
-                event.author = User.objects.get(username=request.user.username)
-                event.storyline = storyline
+            event = form.save(commit=False)
+            event.author = User.objects.get(username=request.user.username)
+            event.storyline = storyline
 
-                form.save()
-                return redirect('myapp:story_detail',pk=storyline.story.pk)
-        else:
-            form = EventForm()
-        return render(request,'myapp/event_form.html',{'form':form})
+            form.save()
+            return redirect('myapp:story_detail',pk=storyline.story.pk)
+    else:
+        form = EventForm()
+    return render(request,'myapp/event_form.html',{'form':form})
 
 
 @login_required
@@ -214,23 +214,20 @@ def delete_storyline(request, pk):
 @login_required
 def addeventcomment(request,pk):
     event = get_object_or_404(StoryEvent, pk=pk)
-    if request.user != event.storyline.story.author:
-        return redirect('myapp:story_detail',pk=event.storyline.story.pk)
+
+    if request.method == 'POST':
+        form = EventCommentForm(request.POST)
+        if form.is_valid():
+
+            eventcomment = form.save(commit=False)
+            eventcomment.author = User.objects.get(username=request.user.username)
+            eventcomment.event = event
+
+            form.save()
+            return redirect('myapp:story_detail',pk=event.storyline.story.pk)
     else:
-
-        if request.method == 'POST':
-            form = EventCommentForm(request.POST)
-            if form.is_valid():
-
-                eventcomment = form.save(commit=False)
-                eventcomment.author = User.objects.get(username=request.user.username)
-                eventcomment.event = event
-
-                form.save()
-                return redirect('myapp:story_detail',pk=event.storyline.story.pk)
-        else:
-            form = EventCommentForm()
-        return render(request,'myapp/eventcomment_form.html',{'form':form})
+        form = EventCommentForm()
+    return render(request,'myapp/eventcomment_form.html',{'form':form})
 
 def register(request):
     registered = False

@@ -20,7 +20,7 @@ class UserProfileForm(forms.ModelForm):
 class StoryForm(forms.ModelForm):
     class Meta():
         model = Story
-        fields = ['title','description','short']
+        fields = ['title','description',]
 
         widgets = {
                 'title':forms.TextInput(attrs={'class': 'titleinput'}),
