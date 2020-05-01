@@ -192,6 +192,7 @@ a.navlink:hover{
   background-color: rgba(200, 200, 200, .6);
   border-radius: 5px;
   padding: 5%;
+
 }
 .add_eventb{
   text-align: center;
@@ -200,8 +201,14 @@ a.navlink:hover{
   padding: 5%;
   font-size: 2em;
 }
-
-
+.event-complete {
+  padding: 0;
+  height: 20px;
+  overflow: hidden;
+}
+.event-complete:hover{
+  height: 40px;
+}
 
 
 

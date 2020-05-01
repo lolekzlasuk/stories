@@ -41,12 +41,12 @@
 </div>
   {% endfor %}
   {% endif %}
-<a class="navico fas fa-user-circle butto" href="#"> Profile</a>
+<a class="navico butto" href="#">  <img class="avatar" src="{{ user.userprofile.profile_pic.url }}" alt="Av"/> Profile</a>
 
 
-{% if user.is_authenticated %}
+<!-- {% if user.is_authenticated %}
   <img class="avatar" src="{{ user.userprofile.profile_pic.url }}" alt="Av"/>
-{% endif %}
+{% endif %} -->
 <!-- <i class="navico user-hide fas fa-user-edit"></i> -->
 
 <a class="navico navlink user-hide fas fa-sign-out-alt butto" href="{% url 'logout' %}">

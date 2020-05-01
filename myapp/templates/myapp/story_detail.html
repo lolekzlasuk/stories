@@ -66,7 +66,63 @@
             {% endif %}
           </div>
           <div class="container-events">
+
+
+
+
             {% for event in storyline.events.all %}
+              {% if event.completed == True %}
+                <div class="eventb event-complete">
+                  <h4 class="show">
+                    <a  href="{% url 'myapp:complete_toggle' pk=event.pk %}">
+                      <i class="far {% if event.completed %} fa-check-circle{%else%} fa-circle{% endif %}"></i>
+                    </a>
+                    {{ event.title }}
+                  </h4>
+                            <div class="hid">
+
+                    <p class="date">completed: {{event.completed_date|date:'G i D M Y' }}</p>
+
+
+                  <p>{{ event.text }}</p>
+                    <a href="{% url 'myapp:storyevent_delete'  pk=event.pk %}"> Delete </a>
+                        <small class="open-comments">Comments:
+
+                          {{ event.comments.count }}
+
+                           </small>
+
+                        <div class="comments">
+
+
+
+                        {% if event.comments.all  %}
+                      {% for comment in event.comments.all %}
+                      <div class="">
+                                              <img class="avatar" src="{{ comment.author.userprofile.profile_pic.url }}" alt="Av"/>
+                                              {{comment.author.userprofile.name}}:
+
+                                              <p>{{comment.created_date|date:'G i D M Y' }}</p>
+                      <div class="comment">
+
+
+                        {{comment.text}}</div></div>
+                      {% endfor %}
+                    {% endif %}
+                    <a class="fas fa-plus-circle" href="{% url 'myapp:addeventcomment' pk=event.pk %}">
+
+                    </a>
+                  </div>
+
+                    </div>
+
+                <!-- <span class="{% if event.completed %}glyphicon glyphicon-ok{% endif %}"></span> -->
+                </div>
+              {% endif %}
+            {% endfor %}
+
+            {% for event in storyline.events.all %}
+              {% if event.completed == False %}
               <div class="eventb">
                 <h4 class="show">
                   <a  href="{% url 'myapp:complete_toggle' pk=event.pk %}">
@@ -75,10 +131,7 @@
                   {{ event.title }}
                 </h4>
                           <div class="hid">
-                {% if event.completed == True %}
-                  <p class="date">completed: {{event.completed_date|date:'G i D M Y' }}</p>
 
-                {% endif %}
                 <p>{{ event.text }}</p>
                   <a href="{% url 'myapp:storyevent_delete'  pk=event.pk %}"> Delete </a>
                       <small class="open-comments">Comments:
@@ -113,7 +166,16 @@
 
               <!-- <span class="{% if event.completed %}glyphicon glyphicon-ok{% endif %}"></span> -->
               </div>
-            {% endfor %}
+            {% endif %}
+          {% endfor %}
+
+
+
+
+
+
+
+
           </div>
           <a href="{% url 'myapp:addevent' pk=storyline.pk %}">
             <div class="add_eventb">
