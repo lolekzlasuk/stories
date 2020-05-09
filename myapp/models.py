@@ -3,7 +3,9 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
 import uuid
-# Create your models here.
+
+
+
 
 
 class UserProfile(models.Model):
@@ -50,7 +52,7 @@ class StoryEvent(models.Model):
     completed = models.BooleanField(default=False)
     completed_date = models.DateTimeField(null=True, blank=True)
 
-    text = models.TextField(max_length=200)
+    text = models.TextField(max_length=200, blank=True)
 
     def publish(self):
         self.published_date = timezone.now()

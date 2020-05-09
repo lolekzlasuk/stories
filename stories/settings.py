@@ -133,3 +133,4 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
     '/static/',
 ]
+AUTHENTICATION_BACKENDS = ('myapp.backend.EmailBackend',)

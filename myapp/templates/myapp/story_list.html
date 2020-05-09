@@ -15,27 +15,24 @@
             <div class="story-title">
               <h2 class="stitle" >{{ story.title }}</h2>
 
-              {% if user == story.author %}
-                <i class="dropdown hover-icon fas fa-pen">
-                  <div class="dropdown-content">
-                    {% if story in user.userprofile.starred.all  %}
-                      <a class="dropdown-link navlink" href="{% url 'myapp:story_unstarr'  pk=story.pk %}">UNSTAR</a>
-                    {% else %}
-                      <a class="dropdown-link navlink" href="{% url 'myapp:story_starr'  pk=story.pk %}">STAR</a>
-                    {% endif %}
-                    <a class="dropdown-link navlink" href="{% url 'myapp:updatestory'  pk=story.pk %}">Edit</a>
-                  <a class="dropdown-link navlink" onclick="myFunction()" href="#">Invite</a>
-                  <input type="text" value="{% fullurl 'myapp:add_member' uuid=story.uuid %}" style="position: absolute; left: -1000px; top: -1000px" id="myInput">
-                    <a class="dropdown-link navlink"  href="{% url 'myapp:story_delete' pk=story.pk %}">Delete</a>
-                  </div>
-                </i>
-                {% else %}
-                  {% if story in user.userprofile.starred.all  %}
 
-                  <a class="dropdown-link navlink" href="{% url 'myapp:story_unstarr'  pk=story.pk %}"><i class="hover-icon far fa-star"></i></a>
-                {% else  %}
-                  <a class="dropdown-link navlink" href="{% url 'myapp:story_starr'  pk=story.pk %}"><i class=" hover-icon fas fa-star"></i></a>
-                {% endif %}
+
+              {% if user == story.author %}
+
+
+
+                    <a class="fas fa-trash butto" href="{% url 'myapp:updatestory'  pk=story.pk %}">edit</a>
+                    <a class="fas fa-pen butto" href="{% url 'myapp:story_delete' pk=story.pk %}">Delete</a>
+                    <input type="text" value="{% fullurl 'myapp:add_member' uuid=story.uuid %}" style="position: absolute; left: -1000px; top: -1000px" id="myInput">
+                    <a onclick="myFunction()"class="fas fa-share butto">share/invite</a>
+                {% else %}
+
+              {% endif %}
+              {% if story in user.userprofile.starred.all  %}
+
+                <a class="butto far fa-star" href="{% url 'myapp:story_unstarr'  pk=story.pk %}" > unstar</a>
+              {% else  %}
+                <a class="butto fas fa-star" href="{% url 'myapp:story_starr'  pk=story.pk %}" > star</a>
               {% endif %}
             </div>
 

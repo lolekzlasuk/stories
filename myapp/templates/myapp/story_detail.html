@@ -14,29 +14,23 @@
     <a class="fas fa-plus-circle butto     "  href="{% url 'myapp:addstoryline' pk=story.pk %}">
       Add storyline
     </a>
+
+      <a class="fas fa-trash butto" href="{% url 'myapp:updatestory'  pk=story.pk %}">edit</a>
+      <a class="fas fa-pen butto" href="{% url 'myapp:story_delete' pk=story.pk %}">Delete</a>
      {% endif %}
     <input type="text" value="{% fullurl 'myapp:add_member' uuid=story.uuid %}" style="position: absolute; left: -1000px; top: -1000px" id="myInput">
     <a onclick="myFunction()"class="fas fa-share butto">share/invite</a>
     {% if user == story.author %}
-    <i class="dropdown fas fa-cog butto">
-      <div class="dropdown-content">
-        {% if story in user.userprofile.starred.all  %}
-          <a class="dropdown-link navlink" href="{% url 'myapp:story_unstarr'  pk=story.pk %}">UNSTAR</a>
-        {% else %}
-          <a class="dropdown-link navlink" href="{% url 'myapp:story_starr'  pk=story.pk %}">STAR</a>
-        {% endif %}
-      <a class="dropdown-link navlink" href="{% url 'myapp:updatestory'  pk=story.pk %}">edit</a>
-      <a class="dropdown-link navlink" href="{% url 'myapp:story_delete' pk=story.pk %}">Delete</a>
-      </div>
-    </i>
-    {% else %}
+
+
+    {% endif %}
       {% if story in user.userprofile.starred.all  %}
 
-        <a class="dropdown-link navlink butto hover-icon far fa-star" href="{% url 'myapp:story_unstarr'  pk=story.pk %}" > unstar</a>
+        <a class="butto hover-icon far fa-star" href="{% url 'myapp:story_unstarr'  pk=story.pk %}" > unstar</a>
       {% else  %}
-        <a class="dropdown-link navlink butto hover-icon fas fa-star" href="{% url 'myapp:story_starr'  pk=story.pk %}" > star</a>
+        <a class="butto hover-icon fas fa-star" href="{% url 'myapp:story_starr'  pk=story.pk %}" > star</a>
       {% endif %}
-    {% endif %}
+
     <i class="showall fas fa-grip-lines  butto unpressed"></i>
 
   </div>
@@ -51,18 +45,17 @@
 
 
             <h2>{{storyline.title}}</h2>
+            <p class="description">{{storyline.description}}</p>
             {% if user == story.author %}
-            <i class="dropdown hover-icon fas fa-pen">
-              <p class="description">{{storyline.description}}</p>
-              <div class="dropdown-content">
 
 
-                <a class="dropdown-link navlink" href="{% url 'myapp:updatestoryline'  pk=storyline.pk %}">Edit</a>
 
-                <a class="dropdown-link navlink" href="{% url 'myapp:storyline_delete'  pk=storyline.pk %}">Delete</a>
 
-              </div>
-            </i>
+
+                <a class="fas fa-pen butto" href="{% url 'myapp:updatestoryline'  pk=storyline.pk %}">Edit</a>
+
+                <a class="fas fa-trash butto" href="{% url 'myapp:storyline_delete'  pk=storyline.pk %}">Delete</a>
+
             {% endif %}
           </div>
           <div class="container-events">

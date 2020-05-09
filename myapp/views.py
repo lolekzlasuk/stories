@@ -118,9 +118,9 @@ def updatestoryline(request,pk):
             form = StorylineForm(request.POST)
             if form.is_valid():
                 storyline = form.save(commit=False)
-                storyline.story = story
+
                 form.save()
-                return redirect('myapp:story_detail',pk=story.pk)
+                return redirect('myapp:story_detail',pk=storyline.story.pk)
         else:
             form = StorylineForm(instance=storyline)
         return render(request,'myapp/storyline_update_form.html',{'form':form})
