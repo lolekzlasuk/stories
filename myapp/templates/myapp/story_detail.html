@@ -11,28 +11,30 @@
         {{story.title}}
     </div>
   {% if user == story.author %}
-    <a class="fas fa-plus-circle butto     "  href="{% url 'myapp:addstoryline' pk=story.pk %}">
+    <a class="fas fa-plus-circle butto topbut    "  href="{% url 'myapp:addstoryline' pk=story.pk %}">
       Add storyline
     </a>
 
-      <a class="fas fa-trash butto" href="{% url 'myapp:updatestory'  pk=story.pk %}">edit</a>
-      <a class="fas fa-pen butto" href="{% url 'myapp:story_delete' pk=story.pk %}">Delete</a>
+      <a class="fas fa-trash butto topbut" href="{% url 'myapp:updatestory'  pk=story.pk %}">edit</a>
+      <a class="fas fa-pen butto topbut" href="{% url 'myapp:story_delete' pk=story.pk %}">Delete</a>
      {% endif %}
     <input type="text" value="{% fullurl 'myapp:add_member' uuid=story.uuid %}" style="position: absolute; left: -1000px; top: -1000px" id="myInput">
-    <a onclick="myFunction()"class="fas fa-share butto">share/invite</a>
+    <a onclick="myFunction()"class="fas fa-share butto topbut">share/invite</a>
     {% if user == story.author %}
 
 
     {% endif %}
       {% if story in user.userprofile.starred.all  %}
 
-        <a class="butto hover-icon far fa-star" href="{% url 'myapp:story_unstarr'  pk=story.pk %}" > unstar</a>
+        <a class="butto  far fa-star topbut" href="{% url 'myapp:story_unstarr'  pk=story.pk %}" > unstar</a>
       {% else  %}
-        <a class="butto hover-icon fas fa-star" href="{% url 'myapp:story_starr'  pk=story.pk %}" > star</a>
+        <a class=" butto fas fa-star topbut" href="{% url 'myapp:story_starr'  pk=story.pk %}" > star</a>
       {% endif %}
 
-    <i class="showall fas fa-grip-lines  butto unpressed"></i>
+    <i class="showall fas fa-grip-lines  butto unpressed topbut "></i>
 
+
+    <i class="fas fa-cog butto"></i>
   </div>
 
 
@@ -59,10 +61,40 @@
             {% endif %}
           </div>
           <div class="container-events">
+            <!-- ####################################### -->
+
+
+
+              <div class="eventb ">
+                <h4 class="compl">
+                  Completed events:
+                </h4>
+
+    </div>
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+#################################### -->
             {% for event in storyline.events.all %}
               {% if event.completed == True %}
                 <div class="eventb event-complete">
@@ -191,6 +223,8 @@
   $(".hid").toggle();
   $(".description").toggle();
   $('.comments').toggle();
+  $('.event-complete').toggle();
+  $('.topbut').toggle();
   $(document).ready(function(){
     $(".show").click(function(){
 
@@ -222,6 +256,18 @@
         }
 
 
+    });
+  });
+
+  $(document).ready(function(){
+    $(".compl").click(function(){
+        $(this).parents(".container-events").find(".event-complete").toggle();
+    });
+  });
+
+  $(document).ready(function(){
+    $(".fa-cog").click(function(){
+        $(this).parent().find(".topbut").toggle(300);
     });
   });
 

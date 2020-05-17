@@ -25,6 +25,7 @@ class StoryListView(LoginRequiredMixin, ListView):
 
 class StoryDetailView(LoginRequiredMixin, DetailView):
     # model = Story
+
     queryset = Story.objects.all()
 
 class UserProfileUpdateView(LoginRequiredMixin, UpdateView):

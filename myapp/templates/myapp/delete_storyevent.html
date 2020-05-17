@@ -3,7 +3,9 @@
 {% block body_block %}
 <div class="main">
 
-
+  <div class="back-button">
+        <a class="border-icon fas navlink fa-chevron-circle-left" href="{{ request.META.HTTP_REFERER }}" class="btn btn-primary" class></a>
+  </div>
     <!-- Create a Form -->
     <form method="POST">
         <!-- Security token by Django -->
