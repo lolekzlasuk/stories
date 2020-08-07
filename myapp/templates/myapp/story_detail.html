@@ -97,10 +97,10 @@
 #################################### -->
             {% for event in storyline.events.all %}
               {% if event.completed == True %}
-                <div class="eventb event-complete">
+                <div class="eventb eventcomplete event-complete">
                   <h4 class="show">
-                    <a  href="{% url 'myapp:complete_toggle' pk=event.pk %}">
-                      <i class="far {% if event.completed %} fa-check-circle{%else%} fa-circle{% endif %}"></i>
+                    <a  href="#">
+                      <i class="far {% if event.completed %} fa-check-circle{%else%} fa-circle{% endif %}" data-href="{% url 'myapp:complete_toggle' pk=event.pk %}" data-id="{{event.pk}}"></i>
                     </a>
                     {{ event.title }}
                   </h4>
@@ -148,10 +148,10 @@
 
             {% for event in storyline.events.all %}
               {% if event.completed == False %}
-              <div class="eventb">
+              <div class="eventb" >
                 <h4 class="show">
-                  <a  href="{% url 'myapp:complete_toggle' pk=event.pk %}">
-                    <i class="far {% if event.completed %} fa-check-circle{%else%} fa-circle{% endif %}"></i>
+                  <a  href="#">
+                    <i class="far {% if event.completed %} fa-check-circle{%else%} fa-circle{% endif %}" data-href="{% url 'myapp:complete_toggle' pk=event.pk %}" data-id="{{event.pk}}"></i>
                   </a>
                   {{ event.title }}
                 </h4>
@@ -220,6 +220,7 @@
 
 
   <script>
+              console.log("sasd");
   $(".hid").toggle();
   $(".description").toggle();
   $('.comments').toggle();
@@ -293,7 +294,72 @@
 
     /* Alert the copied text */
     alert("Copied the text: " + copyText.value);
-  }
+  };
+
+  $.ajaxSetup({
+       beforeSend: function(xhr, settings) {
+           function getCookie(name) {
+               var cookieValue = null;
+               if (document.cookie && document.cookie != '') {
+                   var cookies = document.cookie.split(';');
+                   for (var i = 0; i < cookies.length; i++) {
+                       var cookie = jQuery.trim(cookies[i]);
+                       // Does this cookie string begin with the name we want?
+                       if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                           cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                           break;
+                       }
+                   }
+               }
+               return cookieValue;
+           }
+           if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+               // Only send the token to relative URLs i.e. locally.
+               xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+           }
+       }
+  });
+
+
+
+
+      $(".fa-circle").click(function (e) {
+        $(this).toggleClass('fa-circle fa-check-circle');
+         e.preventDefault();
+          var pk = $(this).data("pk");
+          console.log("sasd");
+          $.ajax({
+            type: "POST",
+            url: $(this).attr("data-href"),
+              data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                  'pk': pk},
+              dataType: "json",
+              success: function(response) {
+                      alert(response.message);
+              }
+          });
+      });
+
+      $(".fa-check-circle").click(function (e) {
+        $(this).toggleClass('fa-circle fa-check-circle');
+         e.preventDefault();
+          var pk = $(this).data("pk");
+          console.log("sasd");
+          $.ajax({
+            type: "POST",
+            url: $(this).attr("data-href"),
+              data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                  'pk': pk},
+              dataType: "json",
+              success: function(response) {
+                      alert(response.message);
+              }
+          });
+      });
+
+
 
   </script>
 

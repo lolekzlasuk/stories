@@ -12,7 +12,7 @@ from django.views.generic import TemplateView,ListView,DetailView,CreateView,Upd
 from .models import Story,Storyline,StoryEvent, UserProfile
 from django.utils import timezone
 from django.contrib import messages
-
+from django.http import JsonResponse
 class IndexView( TemplateView):
     template_name = 'index.html'
 
@@ -161,9 +161,13 @@ def addstory(request):
 
 @login_required
 def event_complete_toggle(request,pk):
-    event = get_object_or_404(StoryEvent,pk=pk)
-    event.complete_toggle()
-    return redirect('myapp:story_detail',pk=event.storyline.story.pk)
+    if request.is_ajax() and request.method == 'POST':
+        event = get_object_or_404(StoryEvent,pk=pk)
+        event.complete_toggle()
+        return JsonResponse({
+                    'status':'ok'
+
+                    })
 
 @login_required
 def story_unstarr(request,pk):

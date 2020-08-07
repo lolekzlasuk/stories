@@ -191,7 +191,7 @@ a.navlink:hover{
 .eventb {
   background-color: rgba(200, 200, 200, .6);
   border-radius: 5px;
-  padding: 5%;
+  padding: 3%;
 
 }
 .add_eventb{
@@ -203,11 +203,11 @@ a.navlink:hover{
 }
 .event-complete {
   padding: 0;
-  height: 20px;
+  height: 50px;
   overflow: hidden;
 }
 .event-complete:hover{
-  height: 40px;
+  height: 50px;
 }
 
 
@@ -361,6 +361,11 @@ body::-webkit-scrollbar-thumb {
   border-radius: 10px;
   border: 2px solid white;
 }
+
+
+
+
+
 
 .back-button{
     margin: 1% 1%;
