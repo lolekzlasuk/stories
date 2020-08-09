@@ -21,7 +21,7 @@ class Story(models.Model):
     author = models.ForeignKey('auth.User',on_delete=models.PROTECT)
     title = models.TextField(max_length=200)
     created_date = models.DateTimeField(default=timezone.now)
-    description =  models.TextField(max_length=500,default='')
+    description =  models.TextField(max_length=500,default='', blank=True)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=False)
     members = models.ManyToManyField('auth.User',related_name='member')
     def get_absolute_url(self):

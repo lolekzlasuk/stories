@@ -35,16 +35,16 @@
                 <a class="butto fas fa-star" href="{% url 'myapp:story_starr'  pk=story.pk %}" > star</a>
               {% endif %}
             </div>
-
+<a href="{% url 'myapp:story_detail' pk=story.pk %}" class="btn-story">
             <div class="story_inside" >
               <div class="story-text">
                 {{ story.description }}
               </div>
-              <a href="{% url 'myapp:story_detail' pk=story.pk %}" class="btn-story">
-                Open
-              </a>
-            </div>
 
+                <div>Open</div>
+
+            </div>
+</a>
           </div>
         </div>
 

@@ -2,7 +2,7 @@
 {% block body_block %}
   {% if user.is_authenticated %}
   Welcome back {{ user.userprofile.name }}!
-  <a href="{% url 'myapp:addstory' %}">Create a new story</a> or 
+  <a href="{% url 'myapp:addstory' %}">Create a new story</a> or
   <a href="/stories/">View your stories</a>
   {% else %}
 

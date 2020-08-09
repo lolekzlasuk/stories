@@ -46,8 +46,7 @@
           <div class="story-title">
 
 
-            <h2>{{storyline.title}}</h2>
-            <p class="description">{{storyline.description}}</p>
+            <h2 class="storytitle">{{storyline.title}}</h2>
             {% if user == story.author %}
 
 
@@ -65,10 +64,10 @@
 
 
 
-              <div class="eventb ">
-                <h4 class="compl">
-                  Completed events:
-                </h4>
+              <div class="eventbb ">
+                <h5 class="compl">
+                  Completed events
+                </h5>
 
     </div>
 
@@ -345,7 +344,7 @@
         $(this).toggleClass('fa-circle fa-check-circle');
          e.preventDefault();
           var pk = $(this).data("pk");
-          console.log("sasd");
+
           $.ajax({
             type: "POST",
             url: $(this).attr("data-href"),
@@ -360,7 +359,10 @@
       });
 
 
-
+        $(".compl").click(function(){
+          var comple = $(this).parents(".container-events").find('.fa-check-circle').length;
+          console.log(comple);
+        });
   </script>
 
 

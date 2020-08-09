@@ -28,6 +28,7 @@ class StoryDetailView(LoginRequiredMixin, DetailView):
 
     queryset = Story.objects.all()
 
+
 class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = UserProfile
 # class EventCreate(CreateView):
