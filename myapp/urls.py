@@ -8,6 +8,7 @@ urlpatterns=[
     path('user_login',views.user_login,name='user_login'),
     path('story/<int:pk>',views.StoryDetailView.as_view(),name='story_detail'),
     path('add/<uuid>',views.add_member,name='add_member'),
+    path('remove/<int:pk>',views.remove_member,name='remove_member'),
     path('stories/',views.StoryListView.as_view(),name='story_list'),
     path('',views.IndexView.as_view(),name='index_view'),
     path('storyline/<int:pk>/addevent/',views.addevent,name='addevent'),
