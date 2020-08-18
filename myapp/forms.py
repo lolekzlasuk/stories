@@ -49,3 +49,9 @@ class EventCommentForm(forms.ModelForm):
     class Meta():
         model = EventComment
         fields = ('text',)
+        widgets = {
+                'text':forms.TextInput(attrs={'class': 'editable medium-editor-textarea'}),
+                }
+        labels = {
+            'text': (''),
+        }

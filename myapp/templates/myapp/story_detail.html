@@ -38,7 +38,7 @@
     <!--<i class="showall fas fa-grip-lines  butto unpressed topbut "></i>-->
 
 
-    <i class="fas fa-cog butto"></i>
+
   </div>
 
 
@@ -114,34 +114,53 @@
 
 
                   <p>{{ event.text }}</p>
-                    <a href="{% url 'myapp:storyevent_delete'  pk=event.pk %}"> Delete </a>
-                        <small class="open-comments">Comments:
-
-                          {{ event.comments.count }}
-
-                           </small>
-
-                        <div class="comments">
+                    <div class="">
+                      <a class="fas fa-trash" href="{% url 'myapp:storyevent_delete'  pk=event.pk %}"></a>
+                    </div>
 
 
 
-                        {% if event.comments.all  %}
-                      {% for comment in event.comments.all %}
-                      <div class="">
-                                              <img class="avatar" src="{{ comment.author.userprofile.profile_pic.url }}" alt="Av"/>
-                                              {{comment.author.userprofile.name}}:
-
-                                              <p>{{comment.created_date|date:'G i D M Y' }}</p>
-                      <div class="comment">
 
 
-                        {{comment.text}}</div></div>
-                      {% endfor %}
-                    {% endif %}
-                    <a class="fas fa-plus-circle" href="{% url 'myapp:addeventcomment' pk=event.pk %}">
 
-                    </a>
-                  </div>
+
+
+
+
+                    <div class="open-comments">Comments:
+                       {{ event.comments.count }}
+                    </div>
+                    <div class="comments">
+                       {% if event.comments.all  %}
+                       {% for comment in event.comments.all %}
+                       <div class="comment-unit">
+                         <div class="comment-header">
+
+
+                           <img class="commentavatar" src="{{ comment.author.userprofile.profile_pic.url }}" alt="Av"/>
+                           <span class="comment-date">{{comment.created_date|date:'G:i D M Y' }}</span>
+                         </div>
+
+
+                          <div class="comment">
+                            {{comment.author.userprofile.name}}: {{comment.text}}
+                          </div>
+                       </div>
+                       {% endfor %}
+                       {% endif %}
+                       <form method="post" action="{% url 'myapp:addeventcomment' pk=event.pk %}">
+                          {% csrf_token %}
+                          {{ form.as_p }}
+                          <button type="submit" class="comment-button" >Comment</button>
+                       </form>
+                    </div>
+
+
+
+
+
+
+
 
                     </div>
 
@@ -360,7 +379,7 @@
                   'pk': pk},
               dataType: "json",
               success: function(response) {
-                      alert(response.message);
+
               }
           });
       });
@@ -378,7 +397,7 @@
                   'pk': pk},
               dataType: "json",
               success: function(response) {
-                      alert(response.message);
+
               }
           });
       });

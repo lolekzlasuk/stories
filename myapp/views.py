@@ -175,7 +175,7 @@ def event_complete_toggle(request,pk):
         event = get_object_or_404(StoryEvent,pk=pk)
         event.complete_toggle()
         return JsonResponse({
-                    'status':'ok'
+                    
 
                     })
 
