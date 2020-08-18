@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+
+
+{# Custom CSS#}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://kit.fontawesome.com/5668daf914.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <meta charset="utf-8">
+    <title></title>
+
+  </head>
+  <body>
+    <nav class="navbar navbar-light navbar-expand-lg bg-light ">
+    <div class="container">
+      <a class="navbar-brand" href="/"><img src="/static/imgs/loggo.png" alt=""></a>
+          <ul class="navbar-nav mr-auto">
+
+
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'myapp:story_list' %}">sotry list</a>
+
+              </li>
+
+
+          </ul>
+          <ul class="navbar-nav justify-content-end">
+
+            {% if user.is_authenticated %}
+            <li class="nav-item inline">
+            <div class="nav-link">Welcome {{user.username}}</span>
+            </li>
+            <li class="nav-item dropdown">
+       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-user-circle"></i>
+      </a>
+       <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+         <a class="dropdown-item" href="{% url 'logout' %}">log out</a>
+         <a class="dropdown-item" href="#">Another action</a>
+         <a class="dropdown-item" href="#">Something else here</a>
+       </div>
+     </li>
+              {% else %}
+
+              {% endif %}
+
+          </ul>
+
+      </div>
+</nav>
+
+
+<div class="content container" >
+          <div class="row">
+              <div class="col">
+
+                  {% block body_block %}
+
+
+                  {% endblock %}
+
+
+              </div>
+          </div>
+      </div>
+
+    <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
+   </body>
+</html>

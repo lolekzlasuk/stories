@@ -1,0 +1,91 @@
+{% extends 'myapp/base.html' %}
+{% block body_block %}
+
+<button class="toggle-img">toggle img</button>
+   <div class="album py-5 ">
+    <div class="row">
+{% for story in story_list %}
+
+{% if user in story.members.all or user == story.author %}
+  <div class="col-md-3">
+    <div class="card mb-4 box-shadow">
+        <div class="card-icon-container">
+        <img class="card-img-top" src="https://via.placeholder.com/150" alt="Card image cap"></div>
+      <div class="card-body">
+        {% if user == story.author %}
+          <!-- <i class="card-body-icon hover-icon lower-icon fas fa-pen"></i> -->
+        {% endif %}
+          <div class="card-title d-flex justify-content-between font-weight-bold">{{ story.title }}{% if user == story.author %}<div class="dropdown">
+          <a class=" dropdown-toggle" href="#" data-toggle="dropdown"><i class="fas fa-cogs"></i></a>
+          <div class="dropdown-menu">
+            <a href="#" class="dropdown-item">s</a>
+            <a href="#" class="dropdown-item">Link 2</a>
+            <a href="#" class="dropdown-item">Link 3</a>
+          </div>
+        </div>{% endif %} </div>
+          <p class="card-text">{{ story.description }}</p>
+          <!-- <p>{{story.uuid}}</p> -->
+                            <div class="d-flex justify-content-between align-items-center">
+           <a href="{% url 'myapp:story_detail' pk=story.pk %}" id="open-card" class="btn btn-outline-primary">Open</a>
+
+                              </div>
+      </div>
+  </div>
+  </div>
+{% endif %}
+
+
+
+
+
+
+
+{% endfor %}
+</div>
+
+  <div class="card box-shadow">
+    <div class="card-body text-center" >
+        <h4 class="card-title">Add a story</h4>
+        <p class="card-text">Click on this card to create your story</p>
+                          <div class="align-items-center">
+         <a href="{% url 'myapp:addstory' %}" class="btn btn-outline-primary">Create</a>
+                             </div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+  $(".card-text").toggle();
+  $(document).ready(function(){
+    $(".card-title").click.not(children())(function(){
+      $(this).parent().find(".card-text").toggle();
+    });
+  });
+
+
+  $(document).ready(function(){
+    $(".toggle-img").click(function(){
+
+        $(".card-icon-container").toggle();
+
+
+    });
+  });
+
+ $(function() {
+  $('.card').hover(function() {
+    $(this).find('.hover-icon').toggle(400);
+  }, function() {
+    // on mouseout, reset the background colour
+        $(this).find('.hover-icon').toggle(400);
+  });
+});
+</script>
+
+{% endblock %}

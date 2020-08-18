@@ -1,0 +1,11 @@
+{% extends 'myapp/base.html' %}
+{% block body_block %}
+  {% if user.is_authenticated %}
+  Welcome back {{ user.userprofile.name }}!
+  <a href="{% url 'myapp:addstory' %}">Create a new story</a> or
+  <a href="/stories/">View your stories</a>
+  {% else %}
+
+Welcome, Please <a href="{% url 'myapp:register' %}"> register </a>or<a href="{% url 'myapp:user_login' %}"> log in</a>.
+{% endif %}
+{% endblock %}

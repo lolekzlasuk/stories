@@ -1,0 +1,369 @@
+{% extends 'myapp/base.html' %}
+{% block body_block %}
+{% load fullurl %}
+
+{%  if story in user.userprofile.member_of.all  %}
+
+  <div class="top-bar">
+    <div class="bread">
+      <a href="{% url 'myapp:story_list' %}">Story list </a>
+      ->
+        {{story.title}}
+    </div>
+  {% if user == story.author %}
+    <a class="fas fa-plus-circle butto topbut    "  href="{% url 'myapp:addstoryline' pk=story.pk %}">
+      Add storyline
+    </a>
+
+      <a class="fas fa-trash butto topbut" href="{% url 'myapp:updatestory'  pk=story.pk %}">edit</a>
+      <a class="fas fa-pen butto topbut" href="{% url 'myapp:story_delete' pk=story.pk %}">Delete</a>
+     {% endif %}
+    <input type="text" value="{% fullurl 'myapp:add_member' uuid=story.uuid %}" style="position: absolute; left: -1000px; top: -1000px" id="myInput">
+    <a onclick="myFunction()"class="fas fa-share butto topbut">share/invite</a>
+    {% if user == story.author %}
+
+
+    {% endif %}
+      {% if story in user.userprofile.starred.all  %}
+
+        <a class="butto  far fa-star topbut" href="{% url 'myapp:story_unstarr'  pk=story.pk %}" > unstar</a>
+      {% else  %}
+        <a class=" butto fas fa-star topbut" href="{% url 'myapp:story_starr'  pk=story.pk %}" > star</a>
+      {% endif %}
+
+    <i class="showall fas fa-grip-lines  butto unpressed topbut "></i>
+
+
+    <i class="fas fa-cog butto"></i>
+  </div>
+
+
+
+  <div class="container-storydetail">
+    {% for storyline in story.storylines.all %}
+      <div class="storyline">
+        <div class="storyline-content">
+          <div class="story-title">
+
+
+            <h2 class="storytitle">{{storyline.title}}</h2>
+            {% if user == story.author %}
+
+
+
+
+
+                <a class="fas fa-pen butto" href="{% url 'myapp:updatestoryline'  pk=storyline.pk %}">Edit</a>
+
+                <a class="fas fa-trash butto" href="{% url 'myapp:storyline_delete'  pk=storyline.pk %}">Delete</a>
+
+            {% endif %}
+          </div>
+          <div class="container-events">
+            <!-- ####################################### -->
+
+
+
+              <div class="eventbb ">
+                <h5 class="compl">
+                  Completed events
+                </h5>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+#################################### -->
+            {% for event in storyline.events.all %}
+              {% if event.completed == True %}
+                <div class="eventb eventcomplete event-complete">
+                  <h4 class="show">
+                    <a  href="#">
+                      <i class="far {% if event.completed %} fa-check-circle{%else%} fa-circle{% endif %}" data-href="{% url 'myapp:complete_toggle' pk=event.pk %}" data-id="{{event.pk}}"></i>
+                    </a>
+                    {{ event.title }}
+                  </h4>
+                            <div class="hid">
+
+                    <p class="date">completed: {{event.completed_date|date:'G i D M Y' }}</p>
+
+
+                  <p>{{ event.text }}</p>
+                    <a href="{% url 'myapp:storyevent_delete'  pk=event.pk %}"> Delete </a>
+                        <small class="open-comments">Comments:
+
+                          {{ event.comments.count }}
+
+                           </small>
+
+                        <div class="comments">
+
+
+
+                        {% if event.comments.all  %}
+                      {% for comment in event.comments.all %}
+                      <div class="">
+                                              <img class="avatar" src="{{ comment.author.userprofile.profile_pic.url }}" alt="Av"/>
+                                              {{comment.author.userprofile.name}}:
+
+                                              <p>{{comment.created_date|date:'G i D M Y' }}</p>
+                      <div class="comment">
+
+
+                        {{comment.text}}</div></div>
+                      {% endfor %}
+                    {% endif %}
+                    <a class="fas fa-plus-circle" href="{% url 'myapp:addeventcomment' pk=event.pk %}">
+
+                    </a>
+                  </div>
+
+                    </div>
+
+                <!-- <span class="{% if event.completed %}glyphicon glyphicon-ok{% endif %}"></span> -->
+                </div>
+              {% endif %}
+            {% endfor %}
+
+            {% for event in storyline.events.all %}
+              {% if event.completed == False %}
+              <div class="eventb" >
+                <h4 class="show">
+                  <a  href="#">
+                    <i class="far {% if event.completed %} fa-check-circle{%else%} fa-circle{% endif %}" data-href="{% url 'myapp:complete_toggle' pk=event.pk %}" data-id="{{event.pk}}"></i>
+                  </a>
+                  {{ event.title }}
+                </h4>
+                          <div class="hid">
+
+                <p>{{ event.text }}</p>
+                  <a href="{% url 'myapp:storyevent_delete'  pk=event.pk %}"> Delete </a>
+                      <small class="open-comments">Comments:
+
+                        {{ event.comments.count }}
+
+                         </small>
+
+                      <div class="comments">
+
+
+
+                      {% if event.comments.all  %}
+                    {% for comment in event.comments.all %}
+                    <div class="">
+                                            <img class="avatar" src="{{ comment.author.userprofile.profile_pic.url }}" alt="Av"/>
+                                            {{comment.author.userprofile.name}}:
+
+                                            <p>{{comment.created_date|date:'G i D M Y' }}</p>
+                    <div class="comment">
+
+
+                      {{comment.text}}</div></div>
+                    {% endfor %}
+                  {% endif %}
+                  <a class="fas fa-plus-circle" href="{% url 'myapp:addeventcomment' pk=event.pk %}">
+
+                  </a>
+                </div>
+
+                  </div>
+
+              <!-- <span class="{% if event.completed %}glyphicon glyphicon-ok{% endif %}"></span> -->
+              </div>
+            {% endif %}
+          {% endfor %}
+
+
+
+
+
+
+
+
+          </div>
+          <a href="{% url 'myapp:addevent' pk=storyline.pk %}">
+            <div class="add_eventb">
+              <i class="fas fa-plus-circle btn-story btn-story-last butto"></i>
+            </div>
+          </a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  Listen here you little shit
+{% endif %}
+
+
+
+
+
+  <script>
+              console.log("sasd");
+  $(".hid").toggle();
+  $(".description").toggle();
+  $('.comments').toggle();
+  $('.event-complete').toggle();
+  $('.topbut').toggle();
+  $(document).ready(function(){
+    $(".show").click(function(){
+
+    $(this).parent().find(".hid").toggle();
+
+
+    });
+  });
+
+  $(document).ready(function(){
+    $(".show_description").click(function(){
+      if ( $(this).parent(".col").find(".description").is(':hidden')){
+        $(this).parent(".col").find(".description").show(); }
+      else {
+        $(this).parent(".col").find(".description").hide();
+      }
+    });
+  });
+
+  $(document).ready(function(){
+    $(".showall").click(function(){
+        $(this).toggleClass('unpressed pressed');
+        if ($(this).hasClass('unpressed')) {
+          $(".hid").hide();
+        }
+        else if ($(this).hasClass('pressed')) {
+          $(".hid").show();
+
+        }
+
+
+    });
+  });
+
+  $(document).ready(function(){
+    $(".compl").click(function(){
+        $(this).parents(".container-events").find(".event-complete").toggle();
+    });
+  });
+
+  $(document).ready(function(){
+    $(".fa-cog").click(function(){
+        $(this).parent().find(".topbut").toggle(300);
+    });
+  });
+
+
+
+
+  $(document).ready(function(){
+    $(".open-comments").click(function(){
+        $(this).parent().find('.comments').toggle();
+
+      });
+    });
+  function myFunction() {
+    /* Get the text field */
+    var copyText = document.getElementById("myInput");
+
+    /* Select the text field */
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+    /* Copy the text inside the text field */
+    document.execCommand("copy");
+
+    /* Alert the copied text */
+    alert("Copied the text: " + copyText.value);
+  };
+
+  $.ajaxSetup({
+       beforeSend: function(xhr, settings) {
+           function getCookie(name) {
+               var cookieValue = null;
+               if (document.cookie && document.cookie != '') {
+                   var cookies = document.cookie.split(';');
+                   for (var i = 0; i < cookies.length; i++) {
+                       var cookie = jQuery.trim(cookies[i]);
+                       // Does this cookie string begin with the name we want?
+                       if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                           cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                           break;
+                       }
+                   }
+               }
+               return cookieValue;
+           }
+           if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+               // Only send the token to relative URLs i.e. locally.
+               xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+           }
+       }
+  });
+
+
+
+
+      $(".fa-circle").click(function (e) {
+        $(this).toggleClass('fa-circle fa-check-circle');
+         e.preventDefault();
+          var pk = $(this).data("pk");
+          console.log("sasd");
+          $.ajax({
+            type: "POST",
+            url: $(this).attr("data-href"),
+              data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                  'pk': pk},
+              dataType: "json",
+              success: function(response) {
+                      alert(response.message);
+              }
+          });
+      });
+
+      $(".fa-check-circle").click(function (e) {
+        $(this).toggleClass('fa-circle fa-check-circle');
+         e.preventDefault();
+          var pk = $(this).data("pk");
+
+          $.ajax({
+            type: "POST",
+            url: $(this).attr("data-href"),
+              data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                  'pk': pk},
+              dataType: "json",
+              success: function(response) {
+                      alert(response.message);
+              }
+          });
+      });
+
+
+        $(".compl").click(function(){
+          var comple = $(this).parents(".container-events").find('.fa-check-circle').length;
+          console.log(comple);
+        });
+  </script>
+
+
+  {% endblock %}
