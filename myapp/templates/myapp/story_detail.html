@@ -15,23 +15,27 @@
       Add storyline
     </a>
 
-      <a class="fas fa-trash butto topbut" href="{% url 'myapp:updatestory'  pk=story.pk %}">edit</a>
-      <a class="fas fa-pen butto topbut" href="{% url 'myapp:story_delete' pk=story.pk %}">Delete</a>
-     {% endif %}
+      <a class="fas fa-pen butto topbut" href="{% url 'myapp:updatestory'  pk=story.pk %}"></a>
+      <a class="fas fa-trash butto topbut" href="{% url 'myapp:story_delete' pk=story.pk %}"></a>
+
     <input type="text" value="{% fullurl 'myapp:add_member' uuid=story.uuid %}" style="position: absolute; left: -1000px; top: -1000px" id="myInput">
-    <a onclick="myFunction()"class="fas fa-share butto topbut">share/invite</a>
-    {% if user == story.author %}
+    <a onclick="myFunction()"class="fas fa-user-plus butto topbut"></a>
 
 
+
+    {% else %}
+       <a class="fas fa-user-slash butto topbut "href="{% fullurl 'myapp:remove_member' pk=story.pk %}">remove yourself</a>
     {% endif %}
+
+
       {% if story in user.userprofile.starred.all  %}
 
-        <a class="butto  far fa-star topbut" href="{% url 'myapp:story_unstarr'  pk=story.pk %}" > unstar</a>
+        <a class="butto  far fa-star topbut" href="{% url 'myapp:story_unstarr'  pk=story.pk %}" > </a>
       {% else  %}
-        <a class=" butto fas fa-star topbut" href="{% url 'myapp:story_starr'  pk=story.pk %}" > star</a>
+        <a class=" butto fas fa-star topbut" href="{% url 'myapp:story_starr'  pk=story.pk %}" > </a>
       {% endif %}
 
-    <i class="showall fas fa-grip-lines  butto unpressed topbut "></i>
+    <!--<i class="showall fas fa-grip-lines  butto unpressed topbut "></i>-->
 
 
     <i class="fas fa-cog butto"></i>
@@ -40,6 +44,7 @@
 
 
   <div class="container-storydetail">
+
     {% for storyline in story.storylines.all %}
       <div class="storyline">
         <div class="storyline-content">
@@ -53,9 +58,9 @@
 
 
 
-                <a class="fas fa-pen butto" href="{% url 'myapp:updatestoryline'  pk=storyline.pk %}">Edit</a>
+                <a class="fas fa-pen butto" href="{% url 'myapp:updatestoryline'  pk=storyline.pk %}"></a>
 
-                <a class="fas fa-trash butto" href="{% url 'myapp:storyline_delete'  pk=storyline.pk %}">Delete</a>
+                <a class="fas fa-trash butto" href="{% url 'myapp:storyline_delete'  pk=storyline.pk %}"></a>
 
             {% endif %}
           </div>
@@ -66,7 +71,7 @@
 
               <div class="eventbb ">
                 <h5 class="compl">
-                  Completed events
+                  Completed events {{completed_events_queryset}}
                 </h5>
 
     </div>
@@ -157,7 +162,9 @@
                           <div class="hid">
 
                 <p>{{ event.text }}</p>
-                  <a href="{% url 'myapp:storyevent_delete'  pk=event.pk %}"> Delete </a>
+                  {% if user == story.author %}
+                  <a class="fas fa-trash" href="{% url 'myapp:storyevent_delete'  pk=event.pk %}"></a>
+                  {% endif %}
                       <small class="open-comments">Comments:
 
                         {{ event.comments.count }}
@@ -181,7 +188,14 @@
                       {{comment.text}}</div></div>
                     {% endfor %}
                   {% endif %}
-                  <a class="fas fa-plus-circle" href="{% url 'myapp:addeventcomment' pk=event.pk %}">
+                  <!--<a class="fas fa-plus-circle" href="{% url 'myapp:addeventcomment' pk=event.pk %}">-->
+
+
+                      <form method="post" action="{% url 'myapp:addeventcomment' pk=event.pk %}">
+    {% csrf_token %}
+{{ form.as_p }}
+    <button type="submit" >Post Comment</button>
+</form>
 
                   </a>
                 </div>
@@ -208,8 +222,14 @@
           </a>
         </div>
       </div>
-    {% endfor %}
+
+    {% empty %}
+     <a class="fas fa-plus-circle    "  href="{% url 'myapp:addstoryline' pk=story.pk %}">
+      Add storyline
+    </a>
+     {% endfor %}
   </div>
+
 {% else %}
   Listen here you little shit
 {% endif %}
@@ -224,11 +244,16 @@
   $(".description").toggle();
   $('.comments').toggle();
   $('.event-complete').toggle();
-  $('.topbut').toggle();
+//   $('.topbut').toggle();
   $(document).ready(function(){
     $(".show").click(function(){
 
     $(this).parent().find(".hid").toggle();
+    if ($(this).parent().hasClass('eventcomplete')) {
+          $(this).parent().toggleClass('event-complete');
+
+    };
+
 
 
     });

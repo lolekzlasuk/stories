@@ -24,10 +24,13 @@ class StoryListView(LoginRequiredMixin, ListView):
         return Story.objects.order_by('-created_date')
 
 class StoryDetailView(LoginRequiredMixin, DetailView):
-    # model = Story
+    model = Story
 
     queryset = Story.objects.all()
-
+    def get_context_data(self, **kwargs):
+        context = super(StoryDetailView, self).get_context_data(**kwargs)
+        context['form'] = EventCommentForm
+        return context
 
 class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = UserProfile
@@ -109,6 +112,12 @@ def add_member(request,uuid):
     else:
         request.user.userprofile.member_of.add(story)
         return redirect('myapp:story_detail',pk=story.pk)
+
+@login_required
+def remove_member(request,pk):
+    story = get_object_or_404(Story, pk=pk)
+    request.user.userprofile.member_of.remove(story)
+    return HttpResponseRedirect(reverse('myapp:story_list'))
 
 @login_required
 def updatestoryline(request,pk):
