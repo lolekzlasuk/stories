@@ -134,3 +134,9 @@ STATICFILES_DIRS = [
     '/static/',
 ]
 AUTHENTICATION_BACKENDS = ('myapp.backend.EmailBackend',)
+
+ALLOWED_HOSTS = [
+    'napos.pythonanywhere.com',
+    '.pythonanywhere.com',
+    '.googleapis.com',
+]

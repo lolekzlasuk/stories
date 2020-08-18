@@ -38,6 +38,7 @@ class Storyline(models.Model):
     description = models.TextField(max_length=1000)
     title = models.TextField(max_length=200)
 
+
     def get_absolute_url(self):
         return reverse('storyline_list')
 

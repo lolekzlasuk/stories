@@ -4,7 +4,7 @@
 
   <div class="container-story-list">
     {% if not user.userprofile.member_of.all %}
-    oopsie
+        Click below to create your first story
     {% else %}
       {% for story in user.userprofile.member_of.all %}
 
@@ -15,31 +15,33 @@
             <div class="story-title">
               <h2 class="stitle" >{{ story.title }}</h2>
 
+              {% if story in user.userprofile.starred.all  %}
 
+                <a class="buttonn butto fas fa-star" href="{% url 'myapp:story_unstarr'  pk=story.pk %}" > </a>
+              {% else  %}
+                <a class="buttonn butto far fa-star" href="{% url 'myapp:story_starr'  pk=story.pk %}" > </a>
+              {% endif %}
 
               {% if user == story.author %}
 
+<input type="text" value="{% fullurl 'myapp:add_member' uuid=story.uuid %}" style="position: absolute; left: -1000px; top: -1000px" id="myInput">
+                    <a onclick="myFunction()"class="fas fa-user-plus butto buttonn"></a>
 
+                    <a class="fas fa-pen butto buttonn" href="{% url 'myapp:updatestory'  pk=story.pk %}"></a>
+                    <a class="fas fa-trash butto buttonn" href="{% url 'myapp:story_delete' pk=story.pk %}"></a>
 
-                    <a class="fas fa-trash butto" href="{% url 'myapp:updatestory'  pk=story.pk %}">edit</a>
-                    <a class="fas fa-pen butto" href="{% url 'myapp:story_delete' pk=story.pk %}">Delete</a>
-                    <input type="text" value="{% fullurl 'myapp:add_member' uuid=story.uuid %}" style="position: absolute; left: -1000px; top: -1000px" id="myInput">
-                    <a onclick="myFunction()"class="fas fa-share butto">share/invite</a>
                 {% else %}
 
               {% endif %}
-              {% if story in user.userprofile.starred.all  %}
 
-                <a class="butto far fa-star" href="{% url 'myapp:story_unstarr'  pk=story.pk %}" > unstar</a>
-              {% else  %}
-                <a class="butto fas fa-star" href="{% url 'myapp:story_starr'  pk=story.pk %}" > star</a>
-              {% endif %}
+
             </div>
-<a href="{% url 'myapp:story_detail' pk=story.pk %}" class="btn-story">
-            <div class="story_inside" >
-              <div class="story-text">
+            <div class="story-text">
                 {{ story.description }}
               </div>
+<a href="{% url 'myapp:story_detail' pk=story.pk %}" class="btn-story">
+            <div class="story_inside" >
+
 
                 <div>Open</div>
 
@@ -52,7 +54,7 @@
     {% endif %}
   <div class="story">
     <div class="story-container-last">
-      <h2 class="story-title">Add a story</h2>
+      <h2 class="story-title stitle">Add a story</h2>
       <a href="{% url 'myapp:addstory' %}">
         <div class="add_eventb">
           <i class="fas fa-plus-circle btn-story btn-story-last"></i>
@@ -74,7 +76,7 @@
 
 <script>
   $(".hover-icon").toggle();
-  $(".story-text").toggle();
+//   $(".story-text").toggle();
   $(document).ready(function(){
     $(".stitle").click(function(){
       $(this).parent().parent().find(".story-text").toggle(200);
