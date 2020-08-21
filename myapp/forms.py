@@ -9,13 +9,21 @@ class UserForm(forms.ModelForm):
     class Meta():
         model = User
         fields = ('username','email','password')
+        labels = {
+            'username': ('Login'),
+        }
 
 class UserProfileForm(forms.ModelForm):
     class Meta():
         model = UserProfile
-        fields = ('profile_pic','name')
+        fields = ('name','profile_pic',)
+        widgets = {
+                'name':forms.TextInput(attrs={"class":""})
+                }
+        labels = {
+            'name': ('Handle'),
 
-
+        }
 
 class StoryForm(forms.ModelForm):
     class Meta():
@@ -33,7 +41,9 @@ class StorylineForm(forms.ModelForm):
     class Meta():
         model = Storyline
         fields = ('title',)
-
+        widgets = {
+                'title':forms.TextInput(attrs={"rows":2,})
+                }
         # widgets = {
         #         'author':forms.TextInput(attrs={'class': 'textinputclass'}),
         #         'text':forms.TextInput(attrs={'class': 'editable medium-editor-textarea'})
@@ -45,12 +55,20 @@ class EventForm(forms.ModelForm):
         model = StoryEvent
         fields = ('title','text')
 
+        widgets = {
+                        'title':forms.TextInput(attrs={}),
+                        'text':forms.Textarea(attrs={"rows":2})
+                        }
+        labels = {
+            'text': ('Description'),
+        }
+
 class EventCommentForm(forms.ModelForm):
     class Meta():
         model = EventComment
         fields = ('text',)
         widgets = {
-                'text':forms.TextInput(attrs={'class': 'editable medium-editor-textarea'}),
+                'text':forms.Textarea(attrs={"rows":2,"placeholder":" Add a comment","class":"comment-input"})
                 }
         labels = {
             'text': (''),

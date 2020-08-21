@@ -17,18 +17,18 @@
 
               {% if story in user.userprofile.starred.all  %}
 
-                <a class="buttonn butto fas fa-star" href="{% url 'myapp:story_unstarr'  pk=story.pk %}" > </a>
+                <a class="buttonn butto fas fa-star" href="{% url 'myapp:story_unstarr'  pk=story.pk %}" ><p>Unstar</p></a>
               {% else  %}
-                <a class="buttonn butto far fa-star" href="{% url 'myapp:story_starr'  pk=story.pk %}" > </a>
+                <a class="buttonn butto far fa-star" href="{% url 'myapp:story_starr'  pk=story.pk %}" > <p>Star</p></a>
               {% endif %}
 
               {% if user == story.author %}
 
 <input type="text" value="{% fullurl 'myapp:add_member' uuid=story.uuid %}" style="position: absolute; left: -1000px; top: -1000px" id="myInput">
-                    <a onclick="myFunction()"class="fas fa-user-plus butto buttonn"></a>
+                    <a onclick="myFunction()"class="fas fa-user-plus butto buttonn"><p>Invite</p></a>
 
-                    <a class="fas fa-pen butto buttonn" href="{% url 'myapp:updatestory'  pk=story.pk %}"></a>
-                    <a class="fas fa-trash butto buttonn" href="{% url 'myapp:story_delete' pk=story.pk %}"></a>
+                    <a class="fas fa-pen butto buttonn" href="{% url 'myapp:updatestory'  pk=story.pk %}"><p>Edit</p></a>
+                    <a class="fas fa-trash butto buttonn" href="{% url 'myapp:story_delete' pk=story.pk %}"><p>Delete</p></a>
 
                 {% else %}
 

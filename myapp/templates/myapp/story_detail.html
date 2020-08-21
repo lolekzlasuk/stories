@@ -12,27 +12,28 @@
     </div>
   {% if user == story.author %}
     <a class="fas fa-plus-circle butto topbut    "  href="{% url 'myapp:addstoryline' pk=story.pk %}">
-      Add storyline
+      <p>Add a storyline</p>
     </a>
 
-      <a class="fas fa-pen butto topbut" href="{% url 'myapp:updatestory'  pk=story.pk %}"></a>
-      <a class="fas fa-trash butto topbut" href="{% url 'myapp:story_delete' pk=story.pk %}"></a>
+      <a class="fas fa-pen butto topbut" href="{% url 'myapp:updatestory'  pk=story.pk %}"><p>Edit</p></a>
+      <a class="fas fa-trash butto topbut" href="{% url 'myapp:story_delete' pk=story.pk %}"><p>Delete</p></a>
 
     <input type="text" value="{% fullurl 'myapp:add_member' uuid=story.uuid %}" style="position: absolute; left: -1000px; top: -1000px" id="myInput">
-    <a onclick="myFunction()"class="fas fa-user-plus butto topbut"></a>
+    <a onclick="myFunction()"class="fas fa-user-plus butto topbut"><p>Invite</p></a>
 
 
 
     {% else %}
-       <a class="fas fa-user-slash butto topbut "href="{% fullurl 'myapp:remove_member' pk=story.pk %}">remove yourself</a>
+       <a class="fas fa-user-slash butto topbut "href="{% fullurl 'myapp:remove_member' pk=story.pk %}"><p>Remove yourself</p></a>
     {% endif %}
 
 
       {% if story in user.userprofile.starred.all  %}
+<a class=" butto fas fa-star topbut" href="{% url 'myapp:story_starr'  pk=story.pk %}" > <p>Unstar</p> </a>
 
-        <a class="butto  far fa-star topbut" href="{% url 'myapp:story_unstarr'  pk=story.pk %}" > </a>
       {% else  %}
-        <a class=" butto fas fa-star topbut" href="{% url 'myapp:story_starr'  pk=story.pk %}" > </a>
+
+        <a class="butto  far fa-star topbut" href="{% url 'myapp:story_unstarr'  pk=story.pk %}" > <p>Star</p></a>
       {% endif %}
 
     <!--<i class="showall fas fa-grip-lines  butto unpressed topbut "></i>-->
@@ -58,9 +59,9 @@
 
 
 
-                <a class="fas fa-pen butto" href="{% url 'myapp:updatestoryline'  pk=storyline.pk %}"></a>
+                <a class="fas fa-pen butto" href="{% url 'myapp:updatestoryline'  pk=storyline.pk %}"><p>Edit</p></a>
 
-                <a class="fas fa-trash butto" href="{% url 'myapp:storyline_delete'  pk=storyline.pk %}"></a>
+                <a class="fas fa-trash butto" href="{% url 'myapp:storyline_delete'  pk=storyline.pk %}"><p>Delete</p></a>
 
             {% endif %}
           </div>
@@ -182,42 +183,40 @@
 
                 <p>{{ event.text }}</p>
                   {% if user == story.author %}
-                  <a class="fas fa-trash" href="{% url 'myapp:storyevent_delete'  pk=event.pk %}"></a>
+                  <a class="fas fa-trash butto" href="{% url 'myapp:storyevent_delete'  pk=event.pk %}"><p>Delete</p></a>
                   {% endif %}
-                      <small class="open-comments">Comments:
 
-                        {{ event.comments.count }}
-
-                         </small>
-
-                      <div class="comments">
-
-
-
-                      {% if event.comments.all  %}
-                    {% for comment in event.comments.all %}
-                    <div class="">
-                                            <img class="avatar" src="{{ comment.author.userprofile.profile_pic.url }}" alt="Av"/>
-                                            {{comment.author.userprofile.name}}:
-
-                                            <p>{{comment.created_date|date:'G i D M Y' }}</p>
-                    <div class="comment">
+                                      <div class="open-comments">Comments:
+                                         {{ event.comments.count }}
+                                      </div>
+                                      <div class="comments">
+                                         {% if event.comments.all  %}
+                                         {% for comment in event.comments.all %}
+                                         <div class="comment-unit">
+                                           <div class="comment-header">
 
 
-                      {{comment.text}}</div></div>
-                    {% endfor %}
-                  {% endif %}
-                  <!--<a class="fas fa-plus-circle" href="{% url 'myapp:addeventcomment' pk=event.pk %}">-->
+                                             <img class="commentavatar" src="{{ comment.author.userprofile.profile_pic.url }}" alt="Av"/>
+                                             <span class="comment-date">{{comment.created_date|date:'G:i D M Y' }}</span>
+                                           </div>
 
 
-                      <form method="post" action="{% url 'myapp:addeventcomment' pk=event.pk %}">
-    {% csrf_token %}
-{{ form.as_p }}
-    <button type="submit" >Post Comment</button>
-</form>
+                                            <div class="comment">
+                                              {{comment.author.userprofile.name}}: {{comment.text}}
+                                            </div>
+                                         </div>
+                                         {% endfor %}
+                                         {% endif %}
+                                         <div class="" >
+                                           <form method="post" action="{% url 'myapp:addeventcomment' pk=event.pk %}">
+                                              {% csrf_token %}
+                                              {{ form.as_p }}
+                                              <button type="submit" class="comment-button" >Comment</button>
+                                           </form>
+                                         </div>
 
-                  </a>
-                </div>
+                                      </div>
+
 
                   </div>
 

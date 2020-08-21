@@ -2,7 +2,7 @@
 {% extends 'myapp/base.html' %}
 {% block body_block %}
 {% if not user.is_authenticated %}
-  <div class="jumbotron">
+  <div class="form">
     {% if registered %}
     <h1>thank you for registering!</h1>
     <h2>You will be redirected </h2>
@@ -11,11 +11,11 @@
        window.location.href = "/user_login";
     }
 
-    setTimeout(redirect, 3000); //2000 is equivalent to 2 seconds
-</script>
+    setTimeout(redirect, 2000); //2000 is equivalent to 2 seconds
+    </script>
     {% else %}
-      <h1>reigster here</h1>
-      <h3>fill out the form</h3>
+      <h1>Registration</h1>
+
 
       <form enctype="multipart/form-data" method="post">
         {% csrf_token %}
