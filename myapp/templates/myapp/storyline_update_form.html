@@ -6,11 +6,12 @@
 <div class="back-button">
       <a class="border-icon fas navlink fa-chevron-circle-left" href="{{ request.META.HTTP_REFERER }}" class="btn btn-primary" class></a>
 </div>
-  <h1>New Comment</h1>
+<div class="form-container">
+  <h1>Edit Storyline</h1>
   <form  method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" >Post Comment</button>
+    <button class="form-button" type="submit" >Save</button>
   </form>
-
+</div>
 {% endblock %}

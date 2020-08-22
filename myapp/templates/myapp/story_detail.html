@@ -114,10 +114,13 @@
                     <p class="date">completed: {{event.completed_date|date:'G i D M Y' }}</p>
 
 
-                  <p>{{ event.text }}</p>
-                    <div class="">
-                      <a class="fas fa-trash" href="{% url 'myapp:storyevent_delete'  pk=event.pk %}"></a>
-                    </div>
+                  <p class="event-text">{{ event.text }}</p>
+                  {% if user == story.author %}
+                  <div class="delete-button">
+                    <a class="fas fa-trash butto" href="{% url 'myapp:storyevent_delete'  pk=event.pk %}"><p>Delete</p></a>
+                  </div>
+
+                  {% endif %}
 
 
 
@@ -144,7 +147,7 @@
 
 
                           <div class="comment">
-                            {{comment.author.userprofile.name}}: {{comment.text}}
+                            <span class="comment-author">{{comment.author.userprofile.name}}:</span>   {{comment.text}}
                           </div>
                        </div>
                        {% endfor %}
@@ -152,7 +155,10 @@
                        <form method="post" action="{% url 'myapp:addeventcomment' pk=event.pk %}">
                           {% csrf_token %}
                           {{ form.as_p }}
-                          <button type="submit" class="comment-button" >Comment</button>
+                          <div class="comment-button">
+                            <button  type="submit" class="form-button"  >Comment</button>
+                          </div>
+
                        </form>
                     </div>
 
@@ -181,10 +187,14 @@
                 </h4>
                           <div class="hid">
 
-                <p>{{ event.text }}</p>
-                  {% if user == story.author %}
-                  <a class="fas fa-trash butto" href="{% url 'myapp:storyevent_delete'  pk=event.pk %}"><p>Delete</p></a>
-                  {% endif %}
+                            <p class="event-text">{{ event.text }}</p>
+                            {% if user == story.author %}
+                            <div class="delete-button">
+                              <a class="fas fa-trash butto" href="{% url 'myapp:storyevent_delete'  pk=event.pk %}"><p>Delete</p></a>
+                            </div>
+
+                            {% endif %}
+
 
                                       <div class="open-comments">Comments:
                                          {{ event.comments.count }}
@@ -202,7 +212,7 @@
 
 
                                             <div class="comment">
-                                              {{comment.author.userprofile.name}}: {{comment.text}}
+                                            <span class="comment-author">{{comment.author.userprofile.name}}:</span>   {{comment.text}}
                                             </div>
                                          </div>
                                          {% endfor %}
@@ -211,7 +221,9 @@
                                            <form method="post" action="{% url 'myapp:addeventcomment' pk=event.pk %}">
                                               {% csrf_token %}
                                               {{ form.as_p }}
-                                              <button type="submit" class="comment-button" >Comment</button>
+                                                      <div class="comment-button">
+                                              <button type="submit" class="form-button"  >Comment</button>
+                                              </div>
                                            </form>
                                          </div>
 

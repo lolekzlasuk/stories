@@ -2,7 +2,7 @@
 {% extends 'myapp/base.html' %}
 {% block body_block %}
 {% if not user.is_authenticated %}
-  <div class="form">
+<div class="form-container">
     {% if registered %}
     <h1>thank you for registering!</h1>
     <h2>You will be redirected </h2>
