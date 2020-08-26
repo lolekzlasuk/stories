@@ -68,7 +68,7 @@ class EventCommentForm(forms.ModelForm):
         model = EventComment
         fields = ('text',)
         widgets = {
-                'text':forms.Textarea(attrs={"rows":2,"placeholder":" Add a comment","class":"comment-input"})
+                'text':forms.Textarea(attrs={"rows":2,"cols":25,"placeholder":" Add a comment...","class":"comment-input"})
                 }
         labels = {
             'text': (''),

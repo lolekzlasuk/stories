@@ -225,8 +225,8 @@ a:hover{
 }
 .event-complete {
   margin: 0;
-  height: 50px;
-  overflow: hidden;
+  /*height: 50px;*/
+  /*overflow: hidden;*/
   font-size: 0.5em;
 }
 /*.event-complete:hover{*/
@@ -318,10 +318,20 @@ text-align: center;
   display: flex;
   margin-right: auto;
   padding-left: 1em;
+  font-weight: bold;
 }
 .storytitle{
   display: flex;
   margin-right: auto;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: .8em;
+}
+.story-option{
+    display:none;
+}
+.story-title:hover > .story-option{
+    display: block;
 }
 
 .topbut{
@@ -421,7 +431,16 @@ body::-webkit-scrollbar-thumb {
 }
 
 
+.btn-story{
+      border-radius: 2px;
+  /*background-color: rgba(100, 100, 100, .5);*/
+  margin: .3em;
 
+  padding: .3em;
+  color: white;
+  cursor:pointer;
+  text-align: center;
+}
 
 
 
@@ -487,13 +506,17 @@ body::-webkit-scrollbar-thumb {
   text-align: justify;
 
 }
+.story-title a{
+      font-size: 0.85em;
+}
 .comment-unit{
       background-color: rgba(150, 150, 150, 0.4);
 }
 .comment-input{
-  padding:0;
+  padding: 0;
+
   border-radius: 10px;
-  box-sizing: border-box;
+  width:inherit;
 }
 .hid .butto{
 
@@ -537,7 +560,9 @@ body::-webkit-scrollbar-thumb {
     font-weight: bold;
 
 }
-
+.nocompleted{
+  display: none;
+}
 /*.navlink:link {*/
 /*    text-decoration: inherit;*/
 /*    color: inherit;*/

@@ -6,11 +6,12 @@
 
   <div class="top-bar">
     <div class="bread">
-      <a href="{% url 'myapp:story_list' %}">Story list </a>
+      <a href="{% url 'myapp:story_list' %}">Story list  </a>
       ->
         {{story.title}}
     </div>
   {% if user == story.author %}
+  <div class="Boptions">
     <a class="fas fa-plus-circle butto topbut    "  href="{% url 'myapp:addstoryline' pk=story.pk %}">
       <p>Add a storyline</p>
     </a>
@@ -38,7 +39,7 @@
 
     <!--<i class="showall fas fa-grip-lines  butto unpressed topbut "></i>-->
 
-
+</div>
 
   </div>
 
@@ -52,16 +53,18 @@
           <div class="story-title">
 
 
-            <h2 class="storytitle">{{storyline.title}}</h2>
+            <span class="storytitle">{{storyline.title}}</span>
             {% if user == story.author %}
 
 
 
 
+                <span class="story-option">
+                                    <a class="fas fa-pen butto " href="{% url 'myapp:updatestoryline'  pk=storyline.pk %}"><p>Edit</p></a>
 
-                <a class="fas fa-pen butto" href="{% url 'myapp:updatestoryline'  pk=storyline.pk %}"><p>Edit</p></a>
+                <a class="fas fa-trash butto " href="{% url 'myapp:storyline_delete'  pk=storyline.pk %}"><p>Delete</p></a>
+                </span>
 
-                <a class="fas fa-trash butto" href="{% url 'myapp:storyline_delete'  pk=storyline.pk %}"><p>Delete</p></a>
 
             {% endif %}
           </div>
@@ -72,7 +75,7 @@
 
               <div class="eventbb ">
                 <h5 class="compl">
-                  Completed events {{completed_events_queryset}}
+                  Completed events:  <span class="output"></span>
                 </h5>
 
     </div>
@@ -103,12 +106,12 @@
             {% for event in storyline.events.all %}
               {% if event.completed == True %}
                 <div class="eventb eventcomplete event-complete">
-                  <h4 class="show">
+                  <h5 class="show">
                     <a  href="#">
                       <i class="far {% if event.completed %} fa-check-circle{%else%} fa-circle{% endif %}" data-href="{% url 'myapp:complete_toggle' pk=event.pk %}" data-id="{{event.pk}}"></i>
                     </a>
                     {{ event.title }}
-                  </h4>
+                  </h5>
                             <div class="hid">
 
                     <p class="date">completed: {{event.completed_date|date:'G i D M Y' }}</p>
@@ -179,12 +182,12 @@
             {% for event in storyline.events.all %}
               {% if event.completed == False %}
               <div class="eventb" >
-                <h4 class="show">
+                <h5 class="show">
                   <a  href="#">
                     <i class="far {% if event.completed %} fa-check-circle{%else%} fa-circle{% endif %}" data-href="{% url 'myapp:complete_toggle' pk=event.pk %}" data-id="{{event.pk}}"></i>
                   </a>
                   {{ event.title }}
-                </h4>
+                </h5>
                           <div class="hid">
 
                             <p class="event-text">{{ event.text }}</p>
@@ -245,11 +248,13 @@
 
 
           </div>
+            {% if user == story.author %}
           <a href="{% url 'myapp:addevent' pk=storyline.pk %}">
             <div class="add_eventb">
-              <i class="fas fa-plus-circle btn-story btn-story-last butto"></i>
+              <i class="fas fa-plus-circle btn-story btn-story-last "></i>
             </div>
           </a>
+          {% endif %}
         </div>
       </div>
 
@@ -316,7 +321,7 @@
 
   $(document).ready(function(){
     $(".compl").click(function(){
-        $(this).parents(".container-events").find(".event-complete").toggle();
+        $(this).parents(".container-events").find(".eventcomplete").toggle();
     });
   });
 
@@ -414,10 +419,38 @@
       });
 
 
-        $(".compl").click(function(){
-          var comple = $(this).parents(".container-events").find('.fa-check-circle').length;
-          console.log(comple);
-        });
+        $(".fa-circle, .fa-check-circle").click(function(){
+            var comple = $(this).parents(".container-events").find('.fa-check-circle').length;
+            console.log(comple);
+
+            $(this).parents(".storyline-content").find('.output').html(comple);
+            if (comple==0) {
+              console.log(comple + 'sranie');
+              $(this).parents(".container-events").find('.eventbb').addClass('nocompleted');
+
+            }
+            else {
+              $(this).parents(".container-events").find('.eventbb').removeClass('nocompleted');
+            }
+});
+
+
+//         $(".compl").click(function(){
+//             var comple = $(this).parents(".container-events").find('.fa-check-circle').length;
+//             console.log(comple);
+//             $(this).parents(".storyline-content").find('.output').html(comple);
+
+// });
+
+$( ".container-events" ).each( function( index, element ){
+    var comple = $(this).find('.fa-check-circle').length;
+    $(this).find('.output').html(comple);
+    if (comple==0) {
+      $(this).find('.eventbb').addClass('nocompleted');
+
+    }
+});
+
   </script>
 
 
