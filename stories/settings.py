@@ -11,7 +11,11 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-
+ALLOWED_HOSTS = [
+    'napos.pythonanywhere.com',
+    '.pythonanywhere.com',
+    '.googleapis.com',
+]
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR,'myapp/templates/myapp')
@@ -25,7 +29,7 @@ SECRET_KEY = 'pvf+zb-jzb+!2*kyn144u+&um$yja@)%b+*vke&y6=8thasapy'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
 
 
 # Application definition

@@ -1,11 +1,20 @@
 {% extends 'myapp/base.html'  %}
 
 {% block body_block %}
-<div class="back-button">
-      <a class="border-icon fas navlink fa-chevron-circle-left" href="{{ request.META.HTTP_REFERER }}" class="btn btn-primary" class></a>
-</div>
-<div class="form-container">
+<!--<div class="back-button">-->
+<!--      <a class="border-icon fas navlink fa-chevron-circle-left" href="{{ request.META.HTTP_REFERER }}" class="btn btn-primary" class></a>-->
+<!--</div>-->
 
+  <div class="top-bar">
+    <div class="bread">
+      <a href="{% url 'myapp:story_list' %}">Story list  </a>
+      <i class="fas fa-chevron-right"></i>
+        <a href="{% url 'myapp:story_detail' pk=story.pk %}">{{storyname}}</a>
+        <i class="fas fa-chevron-right"></i>
+                <span class="lastcrumb">New Storyline</span>
+    </div>
+    </div>
+    <div class="form-container">
   <h1>New Storyline</h1>
   <form  method="POST">
     {% csrf_token %}

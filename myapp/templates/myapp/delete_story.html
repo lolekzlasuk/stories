@@ -2,13 +2,18 @@
 
 {% block body_block %}
 
-  <div class="bread">
-    {{story.title}}
-
-  </div>
-  <div class="back-button">
-        <a class="border-icon fas navlink fa-chevron-circle-left" href="{{ request.META.HTTP_REFERER }}" class="btn btn-primary" class></a>
-  </div>
+  <div class="top-bar">
+    <div class="bread">
+      <a href="{% url 'myapp:story_list' %}">Story list  </a>
+      <i class="fas fa-chevron-right"></i>
+        <a href="{% url 'myapp:story_detail' pk=story.pk %}">{{story.title}}</a>
+    <i class="fas fa-chevron-right"></i>
+            <span class="lastcrumb">Delete {{story.title}}</span>
+    </div>
+    </div>
+  <!--<div class="back-button">-->
+  <!--      <a class="border-icon fas navlink fa-chevron-circle-left" href="{{ request.META.HTTP_REFERER }}" class="btn btn-primary" class></a>-->
+  <!--</div>-->
   <div class="form-container">
     <!-- Create a Form -->
     <form method="POST">

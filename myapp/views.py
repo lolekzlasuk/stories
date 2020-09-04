@@ -70,7 +70,6 @@ def user_login(request):
 @login_required
 def addevent(request,pk):
     storyline = get_object_or_404(Storyline, pk=pk)
-
     if request.method == 'POST':
         form = EventForm(request.POST)
         if form.is_valid():
@@ -83,7 +82,7 @@ def addevent(request,pk):
             return redirect('myapp:story_detail',pk=storyline.story.pk)
     else:
         form = EventForm()
-    return render(request,'myapp/event_form.html',{'form':form})
+    return render(request,'myapp/event_form.html',{'form':form,'storyname':storyline.story.title,'story':storyline.story,'storyline':storyline})
 
 
 @login_required
@@ -102,7 +101,7 @@ def addstoryline(request,pk):
                 return redirect('myapp:story_detail',pk=story.pk)
         else:
             form = StorylineForm()
-        return render(request,'myapp/storyline_form.html',{'form':form})
+        return render(request,'myapp/storyline_form.html',{'form':form,'storyname':story.title,'story':story})
 
 @login_required
 def add_member(request,uuid):
@@ -134,7 +133,7 @@ def updatestoryline(request,pk):
                 return redirect('myapp:story_detail',pk=storyline.story.pk)
         else:
             form = StorylineForm(instance=storyline)
-        return render(request,'myapp/storyline_update_form.html',{'form':form})
+        return render(request,'myapp/storyline_update_form.html',{'form':form,'storyname':storyline.story.title,'story':storyline.story})
 
 @login_required
 def updatestory(request,pk):
@@ -151,7 +150,7 @@ def updatestory(request,pk):
                 return redirect('myapp:story_detail',pk=story.pk)
         else:
             form = StoryForm(instance=story)
-        return render(request, 'myapp/story_update_form.html', {'form':form})
+        return render(request, 'myapp/story_update_form.html', {'form':form,'storyname':story.title,'story':story})
 
 
 @login_required
@@ -209,7 +208,7 @@ def delete_story(request, pk):
             # home page
             return redirect('myapp:story_list')
 
-        return render(request, "delete_story.html", context)
+        return render(request, "delete_story.html", {'story':story})
 
 @login_required
 def delete_storyline(request, pk):
@@ -227,7 +226,7 @@ def delete_storyline(request, pk):
             # home page
             return redirect('myapp:story_detail',pk=storyline.story.pk)
 
-        return render(request, "delete_storyline.html", context)
+        return render(request, "delete_storyline.html", {'story':storyline.story,'storyline':storyline})
 
 @login_required
 def delete_storyevent(request, pk):
@@ -245,7 +244,7 @@ def delete_storyevent(request, pk):
             # home page
             return redirect('myapp:story_detail',pk=event.storyline.story.pk)
 
-        return render(request, "delete_storyevent.html", context)
+        return render(request, "delete_storyevent.html", {'story':event.storyline.story,'event':event})
 
 
 
