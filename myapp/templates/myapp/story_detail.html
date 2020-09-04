@@ -1,394 +1,195 @@
 {% extends 'myapp/base.html' %}
 {% block body_block %}
 {% load fullurl %}
-
 {%  if story in user.userprofile.member_of.all  %}
-
-  <div class="top-bar">
-    <div class="bread">
-      <a href="{% url 'myapp:story_list' %}">Story list </a>
-      ->
-        {{story.title}}
-    </div>
-  {% if user == story.author %}
-    <a class="fas fa-plus-circle butto topbut    "  href="{% url 'myapp:addstoryline' pk=story.pk %}">
-      Add storyline
-    </a>
-
-      <a class="fas fa-pen butto topbut" href="{% url 'myapp:updatestory'  pk=story.pk %}"></a>
-      <a class="fas fa-trash butto topbut" href="{% url 'myapp:story_delete' pk=story.pk %}"></a>
-
-    <input type="text" value="{% fullurl 'myapp:add_member' uuid=story.uuid %}" style="position: absolute; left: -1000px; top: -1000px" id="myInput">
-    <a onclick="myFunction()"class="fas fa-user-plus butto topbut"></a>
-
-
-
-    {% else %}
-       <a class="fas fa-user-slash butto topbut "href="{% fullurl 'myapp:remove_member' pk=story.pk %}">remove yourself</a>
-    {% endif %}
-
-
-      {% if story in user.userprofile.starred.all  %}
-
-        <a class="butto  far fa-star topbut" href="{% url 'myapp:story_unstarr'  pk=story.pk %}" > </a>
-      {% else  %}
-        <a class=" butto fas fa-star topbut" href="{% url 'myapp:story_starr'  pk=story.pk %}" > </a>
-      {% endif %}
-
-    <!--<i class="showall fas fa-grip-lines  butto unpressed topbut "></i>-->
-
-
-    <i class="fas fa-cog butto"></i>
-  </div>
-
-
-
-  <div class="container-storydetail">
-
-    {% for storyline in story.storylines.all %}
-      <div class="storyline">
-        <div class="storyline-content">
-          <div class="story-title">
-
-
-            <h2 class="storytitle">{{storyline.title}}</h2>
-            {% if user == story.author %}
-
-
-
-
-
-                <a class="fas fa-pen butto" href="{% url 'myapp:updatestoryline'  pk=storyline.pk %}"></a>
-
-                <a class="fas fa-trash butto" href="{% url 'myapp:storyline_delete'  pk=storyline.pk %}"></a>
-
-            {% endif %}
-          </div>
-          <div class="container-events">
-            <!-- ####################################### -->
-
-
-
-              <div class="eventbb ">
-                <h5 class="compl">
-                  Completed events {{completed_events_queryset}}
-                </h5>
-
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--
-#################################### -->
-            {% for event in storyline.events.all %}
-              {% if event.completed == True %}
-                <div class="eventb eventcomplete event-complete">
-                  <h4 class="show">
-                    <a  href="#">
-                      <i class="far {% if event.completed %} fa-check-circle{%else%} fa-circle{% endif %}" data-href="{% url 'myapp:complete_toggle' pk=event.pk %}" data-id="{{event.pk}}"></i>
-                    </a>
-                    {{ event.title }}
-                  </h4>
-                            <div class="hid">
-
-                    <p class="date">completed: {{event.completed_date|date:'G i D M Y' }}</p>
-
-
-                  <p>{{ event.text }}</p>
-                    <a href="{% url 'myapp:storyevent_delete'  pk=event.pk %}"> Delete </a>
-                        <small class="open-comments">Comments:
-
-                          {{ event.comments.count }}
-
-                           </small>
-
-                        <div class="comments">
-
-
-
-                        {% if event.comments.all  %}
-                      {% for comment in event.comments.all %}
-                      <div class="">
-                                              <img class="avatar" src="{{ comment.author.userprofile.profile_pic.url }}" alt="Av"/>
-                                              {{comment.author.userprofile.name}}:
-
-                                              <p>{{comment.created_date|date:'G i D M Y' }}</p>
-                      <div class="comment">
-
-
-                        {{comment.text}}</div></div>
-                      {% endfor %}
-                    {% endif %}
-                    <a class="fas fa-plus-circle" href="{% url 'myapp:addeventcomment' pk=event.pk %}">
-
-                    </a>
-                  </div>
-
-                    </div>
-
-                <!-- <span class="{% if event.completed %}glyphicon glyphicon-ok{% endif %}"></span> -->
-                </div>
-              {% endif %}
-            {% endfor %}
-
-            {% for event in storyline.events.all %}
-              {% if event.completed == False %}
-              <div class="eventb" >
-                <h4 class="show">
-                  <a  href="#">
-                    <i class="far {% if event.completed %} fa-check-circle{%else%} fa-circle{% endif %}" data-href="{% url 'myapp:complete_toggle' pk=event.pk %}" data-id="{{event.pk}}"></i>
-                  </a>
-                  {{ event.title }}
-                </h4>
-                          <div class="hid">
-
-                <p>{{ event.text }}</p>
-                  {% if user == story.author %}
-                  <a class="fas fa-trash" href="{% url 'myapp:storyevent_delete'  pk=event.pk %}"></a>
-                  {% endif %}
-                      <small class="open-comments">Comments:
-
-                        {{ event.comments.count }}
-
-                         </small>
-
-                      <div class="comments">
-
-
-
-                      {% if event.comments.all  %}
-                    {% for comment in event.comments.all %}
-                    <div class="">
-                                            <img class="avatar" src="{{ comment.author.userprofile.profile_pic.url }}" alt="Av"/>
-                                            {{comment.author.userprofile.name}}:
-
-                                            <p>{{comment.created_date|date:'G i D M Y' }}</p>
-                    <div class="comment">
-
-
-                      {{comment.text}}</div></div>
-                    {% endfor %}
-                  {% endif %}
-                  <!--<a class="fas fa-plus-circle" href="{% url 'myapp:addeventcomment' pk=event.pk %}">-->
-
-
-                      <form method="post" action="{% url 'myapp:addeventcomment' pk=event.pk %}">
-    {% csrf_token %}
-{{ form.as_p }}
-    <button type="submit" >Post Comment</button>
-</form>
-
-                  </a>
-                </div>
-
-                  </div>
-
-              <!-- <span class="{% if event.completed %}glyphicon glyphicon-ok{% endif %}"></span> -->
-              </div>
-            {% endif %}
-          {% endfor %}
-
-
-
-
-
-
-
-
-          </div>
-          <a href="{% url 'myapp:addevent' pk=storyline.pk %}">
-            <div class="add_eventb">
-              <i class="fas fa-plus-circle btn-story btn-story-last butto"></i>
-            </div>
+<div class="top-bar">
+   <div class="crumbs">
+      <a href="{% url 'myapp:story_list' %}">Story list</a>
+      <i class="fas fa-chevron-right"></i>
+      {{story.title}}
+   </div>
+   <div>
+      {% if user == story.author %}
+          <a class="fas fa-plus-circle button top-bar__button    "  href="{% url 'myapp:addstoryline' pk=story.pk %}">
+             <p>Add a storyline</p>
           </a>
-        </div>
+          <a class="fas fa-pen button top-bar__button" href="{% url 'myapp:updatestory'  pk=story.pk %}">
+             <p>Edit</p>
+          </a>
+          <a class="fas fa-trash button top-bar__button" href="{% url 'myapp:story_delete' pk=story.pk %}">
+             <p>Delete</p>
+          </a>
+          <input type="text" value="{% fullurl 'myapp:add_member' uuid=story.uuid %}" style="position: absolute; left: -1000px; top: -1000px" class="uuid-input">
+          <a class="fas fa-user-plus button top-bar__button">
+             <p>Invite</p>
+          </a>
+      {% else %}
+          <a class="fas fa-user-slash button top-bar__button "href="{% fullurl 'myapp:remove_member' pk=story.pk %}">
+             <p>Remove yourself</p>
+          </a>
+      {% endif %}
+      {% if story in user.userprofile.starred.all  %}
+          <a class=" button fas fa-star top-bar__button" href="{% url 'myapp:story_unstarr'  pk=story.pk %}" >
+             <p>Unstar</p>
+          </a>
+      {% else  %}
+          <a class="button  far fa-star top-bar__button" href="{% url 'myapp:story_starr'  pk=story.pk %}" >
+             <p>Star</p>
+          </a>
+      {% endif %}
+      <!--<i class="showall fas fa-grip-lines  button unpressed topbut "></i>-->
+   </div>
+</div>
+<div class="storyline-container">
+   {% for storyline in story.storylines.all %}
+   <div class="storyline">
+      <div class="storyline-content">
+         <div class="storyline-header">
+            <span class="storyline-header__title">{{storyline.title}}</span>
+            {% if user == story.author %}
+                <span class="storyline-options">
+                   <a class="fas fa-pen button " href="{% url 'myapp:updatestoryline'  pk=storyline.pk %}">
+                      <p>Edit</p>
+                   </a>
+                   <a class="fas fa-trash button " href="{% url 'myapp:storyline_delete'  pk=storyline.pk %}">
+                      <p>Delete</p>
+                   </a>
+                </span>
+            {% endif %}
+         </div>
+         <div class="events-container">
+            <div class="completed-events-box">
+               <h5 class="completed-events-box__text">
+                  Completed events:  <span class="completed-events-box__count"></span>
+               </h5>
+            </div>
+            {% for event in storyline.events.all %}
+                {% if event.completed == True %}
+                    <div class="event event--completed " >
+                       <h5>
+                          <span>
+                          <i class="complete far {% if event.completed %} fa-check-circle{% else %} fa-circle{% endif %}" data-href="{% url 'myapp:complete_toggle' pk=event.pk %}" data-id="{{event.pk}}"></i>
+                          </span>
+                          <span class="event-title">{{ event.title }}</span>
+                       </h5>
+                       {% if user == story.author %}
+                           <a class="fas fa-trash button event__delete-button" href="{% url 'myapp:storyevent_delete'  pk=event.pk %}"></a>
+                       {% endif %}
+                       <div class="event-hide">
+                          <p class="date">completed: {{event.completed_date|date:'G:i j M Y' }}</p>
+                          <p class="event-text">{{ event.text }}</p>
+                          <div class="open-comments">Comments:
+                             {{ event.comments.count }}
+                          </div>
+                          <div class="comments">
+                             {% if event.comments.all  %}
+                             {% for comment in event.comments.all %}
+                             <div class="comment-unit">
+                                <div class="comment-header">
+                                   <img class="commentavatar" src="{{ comment.author.userprofile.profile_pic.url }}" alt="Av"/>
+                                   <span class="comment-date">posted on {{comment.created_date|date:'G:i j M Y' }}</span>
+                                </div>
+                                <div class="comment">
+                                   <span class="comment-author">{{comment.author.userprofile.name}}:</span>   {{comment.text}}
+                                </div>
+                             </div>
+                             {% endfor %}
+                             {% endif %}
+                             <div class="" >
+                                <form method="post" action="{% url 'myapp:addeventcomment' pk=event.pk %}">
+                                   {% csrf_token %}
+                                   {{ form.as_p }}
+                                   <div class="comment-button">
+                                      <button type="submit" class="form-button"  >Comment</button>
+                                   </div>
+                                </form>
+                             </div>
+                          </div>
+                       </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            {% for event in storyline.events.all %}
+            {% if event.completed == False %}
+            <div class="event" >
+               <h5 >
+                  <span  href="#">
+                  <i class="complete far {% if event.completed %} fa-check-circle{%else%} fa-circle{% endif %}" data-href="{% url 'myapp:complete_toggle' pk=event.pk %}" data-id="{{event.pk}}"></i>
+                  </span>
+                  <span class="event-title">{{ event.title }}</span>
+               </h5>
+               {% if user == story.author %}
+               <a class="fas fa-trash button event__delete-button" href="{% url 'myapp:storyevent_delete'  pk=event.pk %}"></a>
+               {% endif %}
+               <div class="event-hide">
+                  <p class="event-text">{{ event.text }}</p>
+                  <div class="open-comments">Comments:
+                     {{ event.comments.count }}
+                  </div>
+                  <div class="comments">
+                     {% if event.comments.all  %}
+                     {% for comment in event.comments.all %}
+                     <div class="comment-unit">
+                        <div class="comment-header">
+                           <img class="commentavatar" src="{{ comment.author.userprofile.profile_pic.url }}" alt="Av"/>
+                           <span class="comment-date">posted on {{comment.created_date|date:'G:i j M Y' }}</span>
+                        </div>
+                        <div class="comment">
+                           <span class="comment-author">{{comment.author.userprofile.name}}:</span>   {{comment.text}}
+                        </div>
+                     </div>
+                     {% endfor %}
+                     {% endif %}
+                     <div class="" >
+                        <form method="post" action="{% url 'myapp:addeventcomment' pk=event.pk %}">
+                           {% csrf_token %}
+                           {{ form.as_p }}
+                           <div class="comment-button">
+                              <button type="submit" class="form-button"  >Comment</button>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+               <!-- <span class="{% if event.completed %}glyphicon glyphicon-ok{% endif %}"></span> -->
+            </div>
+            {% endif %}
+            {% endfor %}
+         </div>
+         {% if user == story.author %}
+         <a href="{% url 'myapp:addevent' pk=storyline.pk %}">
+            <div class="add_eventb">
+               <i class="fas fa-plus-circle btn-story btn-story-last "></i>
+            </div>
+         </a>
+         {% endif %}
       </div>
-
-    {% empty %}
-     <a class="fas fa-plus-circle    "  href="{% url 'myapp:addstoryline' pk=story.pk %}">
-      Add storyline
-    </a>
-     {% endfor %}
-  </div>
-
-{% else %}
-  Listen here you little shit
+   </div>
+   {% empty %}
+   <!--####-->
+   {% if user == story.author %}
+   <a href="{% url 'myapp:addstoryline' pk=story.pk %}" class="storyline storyline-last">
+      <div class="storyline-content">
+         <div class="storyline-header">
+            <span class="storyline-header__title">Click here to add the first storyline</span>
+         </div>
+         <div class="container-events">
+            <div class="event" >
+            </div>
+         </div>
+      </div>
+      <div href="#">
+         <div class="add_eventb">
+            <i class="fas fa-plus-circle btn-story btn-story-last "></i>
+         </div>
+      </div>
+</div>
+</a>
 {% endif %}
-
-
-
-
-
-  <script>
-              console.log("sasd");
-  $(".hid").toggle();
-  $(".description").toggle();
-  $('.comments').toggle();
-  $('.event-complete').toggle();
-//   $('.topbut').toggle();
-  $(document).ready(function(){
-    $(".show").click(function(){
-
-    $(this).parent().find(".hid").toggle();
-    if ($(this).parent().hasClass('eventcomplete')) {
-          $(this).parent().toggleClass('event-complete');
-
-    };
-
-
-
-    });
-  });
-
-  $(document).ready(function(){
-    $(".show_description").click(function(){
-      if ( $(this).parent(".col").find(".description").is(':hidden')){
-        $(this).parent(".col").find(".description").show(); }
-      else {
-        $(this).parent(".col").find(".description").hide();
-      }
-    });
-  });
-
-  $(document).ready(function(){
-    $(".showall").click(function(){
-        $(this).toggleClass('unpressed pressed');
-        if ($(this).hasClass('unpressed')) {
-          $(".hid").hide();
-        }
-        else if ($(this).hasClass('pressed')) {
-          $(".hid").show();
-
-        }
-
-
-    });
-  });
-
-  $(document).ready(function(){
-    $(".compl").click(function(){
-        $(this).parents(".container-events").find(".event-complete").toggle();
-    });
-  });
-
-  $(document).ready(function(){
-    $(".fa-cog").click(function(){
-        $(this).parent().find(".topbut").toggle(300);
-    });
-  });
-
-
-
-
-  $(document).ready(function(){
-    $(".open-comments").click(function(){
-        $(this).parent().find('.comments').toggle();
-
-      });
-    });
-  function myFunction() {
-    /* Get the text field */
-    var copyText = document.getElementById("myInput");
-
-    /* Select the text field */
-    copyText.select();
-    copyText.setSelectionRange(0, 99999); /*For mobile devices*/
-
-    /* Copy the text inside the text field */
-    document.execCommand("copy");
-
-    /* Alert the copied text */
-    alert("Copied the text: " + copyText.value);
-  };
-
-  $.ajaxSetup({
-       beforeSend: function(xhr, settings) {
-           function getCookie(name) {
-               var cookieValue = null;
-               if (document.cookie && document.cookie != '') {
-                   var cookies = document.cookie.split(';');
-                   for (var i = 0; i < cookies.length; i++) {
-                       var cookie = jQuery.trim(cookies[i]);
-                       // Does this cookie string begin with the name we want?
-                       if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                           cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                           break;
-                       }
-                   }
-               }
-               return cookieValue;
-           }
-           if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-               // Only send the token to relative URLs i.e. locally.
-               xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-           }
-       }
-  });
-
-
-
-
-      $(".fa-circle").click(function (e) {
-        $(this).toggleClass('fa-circle fa-check-circle');
-         e.preventDefault();
-          var pk = $(this).data("pk");
-          console.log("sasd");
-          $.ajax({
-            type: "POST",
-            url: $(this).attr("data-href"),
-              data: {
-                csrfmiddlewaretoken: '{{ csrf_token }}',
-                  'pk': pk},
-              dataType: "json",
-              success: function(response) {
-                      alert(response.message);
-              }
-          });
-      });
-
-      $(".fa-check-circle").click(function (e) {
-        $(this).toggleClass('fa-circle fa-check-circle');
-         e.preventDefault();
-          var pk = $(this).data("pk");
-
-          $.ajax({
-            type: "POST",
-            url: $(this).attr("data-href"),
-              data: {
-                csrfmiddlewaretoken: '{{ csrf_token }}',
-                  'pk': pk},
-              dataType: "json",
-              success: function(response) {
-                      alert(response.message);
-              }
-          });
-      });
-
-
-        $(".compl").click(function(){
-          var comple = $(this).parents(".container-events").find('.fa-check-circle').length;
-          console.log(comple);
-        });
-  </script>
-
-
-  {% endblock %}
+{% endfor %}
+</div>
+{% else %}
+Listen here you little shit
+{% endif %}
+<script></script>
+{% endblock %}
